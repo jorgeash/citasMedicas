@@ -1,0 +1,38 @@
+
+## 10. Código actual — dónde se mueve
+
+| Ubicación actual | Nueva ubicación |
+|---|---|
+| Domain/Billing/ | Billing.Service/Billing.Domain/Billing/ |
+| Persistence/Billing/ | Billing.Service/Billing.Persistence/Billing/ |
+| Api/Controllers/ServiciosController.cs | Billing.Service/Billing.Api/Controllers/ |
+| Api/Controllers/TarifasController.cs | Billing.Service/Billing.Api/Controllers/ |
+
+
+
+
+## 11. Decisiones tomadas
+
+### ¿Por qué Procedimientos está en ClinicalRecords y no en Billing?
+
+Un procedimiento médico es lo que el médico HACE al paciente (biopsia, cirugía, inyección). Billing cobra el procedimiento, no lo crea. Si Procedimientos estuviera en Billing, entonces ClinicalRecords tendría que llamar a Billing para saber qué procedimientos se realizaron, lo cual es un acoplamiento incorrecto.
+
+### ¿Por qué Notificaciones está en Notification.Service y no en Billing?
+
+Todos los servicios generan notificaciones: Scheduling genera avisos de citas, ClinicalRecords genera avisos de resultados, Billing genera avisos de pago. Meter Notificaciones en Billing obligaría a que los demás servicios llamen a Billing para enviar notificaciones, lo cual es un acoplamiento sin sentido.
+
+### ¿Por qué Médicos está en Identity y no en Scheduling?
+
+Un médico se crea cuando se contrata (evento de identidad), tiene licencia profesional, se autentica al sistema y tiene roles/permisos. Scheduling referencia a los médicos para agendar citas, pero no es el dueño de la entidad. La referencia se resuelve vía API, no víaFK en base de datos.
+
+### ¿Por qué Horarios_Médicos está en Scheduling y no en Identity?
+
+Los horarios son disponibilidad operativa: "cuándo atiende el médico en qué consultorio". Identity gestiona QUIÉN es la persona, Scheduling gestiona CUÁNDO está disponible. Es como un piloto de avión: su licencia es Identity, su vuelo es Scheduling.
+
+### ¿Por qué Atenciones está en ClinicalRecords y no en Scheduling?
+
+La Cita es la PROMESA de que el paciente y médico se verán (Scheduling). La Atención es lo que PASÓ médicamente durante ese encuentro (ClinicalRecords). Son conceptos diferentes: la Cita puede existir sin Atención (el paciente no asistió). La Atención siempre referencia a una Cita, pero no puede existir sin datos clínicos asociados.
+
+### ¿Por qué se usa MediatR?
+
+MediatR implementa el patrón Mediator: los Controllers no llaman directamente a los Services, sino que envían Commands o Queries. Un Handler los procesa. Esto desacopla completamente la capa de presentación de la lógica de negocio. Cada operación queda encapsulada en su propio Command/Query + Handler, facilitando testing, mantenimiento y escalación del código.
