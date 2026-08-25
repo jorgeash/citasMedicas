@@ -6,4 +6,5 @@ public interface IServicioRepository
 {
     Task<IEnumerable<Servicio>> GetAllAsync();
     Task<Servicio?> GetByIdAsync(int id);
+    Task<Servicio> AddAsync(Servicio servicio);
 }
