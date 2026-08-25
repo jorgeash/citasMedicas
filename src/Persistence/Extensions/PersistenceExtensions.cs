@@ -16,6 +16,7 @@ public static class PersistenceExtensions
 
         services.AddScoped<IServicioRepository, ServicioRepository>();
         services.AddScoped<ITarifaRepository, TarifaRepository>();
+        services.AddScoped<IPacienteRepository, PacienteRepository>();
 
         return services;
     }

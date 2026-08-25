@@ -23,4 +23,28 @@ public class ServicioRepository : IServicioRepository
     {
         return await _context.Servicios.FindAsync(id);
     }
+
+    public async Task<Servicio> CreateAsync(Servicio servicio)
+    {
+        await _context.Servicios.AddAsync(servicio);
+        await _context.SaveChangesAsync();
+
+        return servicio;
+    }
+
+    public async Task<Servicio> UpdateAsync(Servicio servicio)
+    {
+        _context.Servicios.Update(servicio);
+        await _context.SaveChangesAsync();
+
+        return servicio;
+    }
+
+    public async Task<bool> DeleteAsync(Servicio servicio)
+    {
+        _context.Servicios.Remove(servicio);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }

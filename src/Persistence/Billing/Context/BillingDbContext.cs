@@ -9,6 +9,7 @@ public class BillingDbContext : DbContext
 
     public DbSet<Servicio> Servicios => Set<Servicio>();
     public DbSet<Tarifa> Tarifas => Set<Tarifa>();
+    public DbSet<Paciente> Pacientes => Set<Paciente>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
