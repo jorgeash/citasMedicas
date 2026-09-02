@@ -1,4 +1,9 @@
-using Domain.Billing.Interfaces;
+using MediatR;
+using Core.DTOs.Billing;
+using Core.Features.Billing.Tarifas.Commands.CreateTarifa;
+using Core.Features.Billing.Tarifas.Queries.GetTarifas;
+using Core.Features.Billing.Tarifas.Queries.GetTarifaById;
+using Core.Features.Billing.Tarifas.Queries.GetTarifasByServicio;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Api.Controllers;
@@ -7,34 +12,41 @@ namespace Api.Api.Controllers;
 [Route("api/[controller]")]
 public class TarifasController : ControllerBase
 {
-    private readonly ITarifaRepository _tarifaRepository;
+    private readonly IMediator _mediator;
 
-    public TarifasController(ITarifaRepository tarifaRepository)
+    public TarifasController(IMediator mediator)
     {
-        _tarifaRepository = tarifaRepository;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IEnumerable<TarifaDto>> GetAll()
     {
-        var tarifas = await _tarifaRepository.GetAllAsync();
-        return Ok(tarifas);
+        return await _mediator.Send(new GetTarifasQuery());
     }
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var tarifa = await _tarifaRepository.GetByIdAsync(id);
-        if (tarifa is null)
+        var result = await _mediator.Send(new GetTarifaByIdQuery(id));
+        if (result is null)
             return NotFound();
-
-        return Ok(tarifa);
+        return Ok(result);
     }
 
     [HttpGet("servicio/{servicioId:int}")]
     public async Task<IActionResult> GetByServicioId(int servicioId)
     {
-        var tarifas = await _tarifaRepository.GetByServicioIdAsync(servicioId);
-        return Ok(tarifas);
+        var result = await _mediator.Send(new GetTarifasByServicioQuery(servicioId));
+        if (result is null)
+            return NotFound();
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] CreateTarifaCommand command)
+    {
+        var id = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id }, id);
     }
 }

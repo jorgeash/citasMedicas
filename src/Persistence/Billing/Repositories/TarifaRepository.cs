@@ -35,4 +35,11 @@ public class TarifaRepository : ITarifaRepository
             .Where(t => t.ServicioID == servicioId)
             .ToListAsync();
     }
+
+    public async Task<Tarifa> AddAsync(Tarifa tarifa)
+    {
+        _context.Tarifas.Add(tarifa);
+        await _context.SaveChangesAsync();
+        return tarifa;
+    }
 }
