@@ -18,6 +18,6 @@ public class GetServicioByIdQueryHandler
         GetServicioByIdQuery request,
         CancellationToken cancellationToken)
     {
-        return await _repository.GetByIdAsync(request.Id);
+        return await _repository.GetByIdAsync(request.Id, cancellationToken);
     }
 }

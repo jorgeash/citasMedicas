@@ -13,18 +13,17 @@ public class TarifasController : ControllerBase
     {
         _tarifaRepository = tarifaRepository;
     }
-
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        var tarifas = await _tarifaRepository.GetAllAsync();
+        var tarifas = await _tarifaRepository.GetAllAsync(cancellationToken);
         return Ok(tarifas);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
-        var tarifa = await _tarifaRepository.GetByIdAsync(id);
+        var tarifa = await _tarifaRepository.GetByIdAsync(id, cancellationToken);
         if (tarifa is null)
             return NotFound();
 
@@ -32,9 +31,9 @@ public class TarifasController : ControllerBase
     }
 
     [HttpGet("servicio/{servicioId:int}")]
-    public async Task<IActionResult> GetByServicioId(int servicioId)
+    public async Task<IActionResult> GetByServicioId(int servicioId, CancellationToken cancellationToken)
     {
-        var tarifas = await _tarifaRepository.GetByServicioIdAsync(servicioId);
+        var tarifas = await _tarifaRepository.GetByServicioIdAsync(servicioId, cancellationToken);
         return Ok(tarifas);
     }
 }

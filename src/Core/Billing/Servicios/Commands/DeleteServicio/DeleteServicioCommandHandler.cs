@@ -17,13 +17,13 @@ public class DeleteServicioCommandHandler
         DeleteServicioCommand request,
         CancellationToken cancellationToken)
     {
-        var servicio = await _repository.GetByIdAsync(request.Id);
+        var servicio = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
         if (servicio is null)
         {
             return false;
         }
 
-        return await _repository.DeleteAsync(servicio);
+        return await _repository.DeleteAsync(servicio, cancellationToken);
     }
 }

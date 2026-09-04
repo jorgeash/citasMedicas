@@ -1,16 +1,9 @@
 ﻿using Domain.Billing.Entities;
+using Domain.Shared.Interfaces;
 
 namespace Domain.Billing.Interfaces;
 
-public interface IPacienteRepository
+public interface IPacienteRepository : IGenericRepository<Paciente, long>
 {
-    Task<IEnumerable<Paciente>> GetAllAsync();
-
-    Task<Paciente?> GetByIdAsync(long id);
-
-    Task<Paciente> CreateAsync(Paciente paciente);
-
-    Task<Paciente> UpdateAsync(Paciente paciente);
-
-    Task<bool> DeleteAsync(Paciente paciente);
+    // Añadir métodos específicos de Paciente si son necesarios
 }

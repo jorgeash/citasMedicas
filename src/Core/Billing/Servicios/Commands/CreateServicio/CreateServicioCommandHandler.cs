@@ -27,6 +27,6 @@ public class CreateServicioCommandHandler
             Activo = request.Activo
         };
 
-        return await _repository.CreateAsync(servicio);
+        return await _repository.CreateAsync(servicio, cancellationToken);
     }
 }

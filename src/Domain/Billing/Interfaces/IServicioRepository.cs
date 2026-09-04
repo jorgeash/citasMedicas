@@ -1,16 +1,9 @@
 using Domain.Billing.Entities;
+using Domain.Shared.Interfaces;
 
 namespace Domain.Billing.Interfaces;
 
-public interface IServicioRepository
+public interface IServicioRepository : IGenericRepository<Servicio, int>
 {
-    Task<IEnumerable<Servicio>> GetAllAsync();
-
-    Task<Servicio?> GetByIdAsync(int id);
-
-    Task<Servicio> CreateAsync(Servicio servicio);
-
-    Task<Servicio> UpdateAsync(Servicio servicio);
-
-    Task<bool> DeleteAsync(Servicio servicio);
+    // Añadir métodos específicos de Servicio si son necesarios
 }

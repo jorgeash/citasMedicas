@@ -1,10 +1,9 @@
 using Domain.Billing.Entities;
+using Domain.Shared.Interfaces;
 
 namespace Domain.Billing.Interfaces;
 
-public interface ITarifaRepository
+public interface ITarifaRepository : IGenericRepository<Tarifa, int>
 {
-    Task<IEnumerable<Tarifa>> GetAllAsync();
-    Task<Tarifa?> GetByIdAsync(int id);
-    Task<IEnumerable<Tarifa>> GetByServicioIdAsync(int servicioId);
+    Task<IEnumerable<Tarifa>> GetByServicioIdAsync(int servicioId, System.Threading.CancellationToken cancellationToken = default);
 }

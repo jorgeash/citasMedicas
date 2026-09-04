@@ -18,10 +18,10 @@ public class PacientesController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Paciente>> GetById(long id)
+    public async Task<ActionResult<Paciente>> GetById(long id, CancellationToken cancellationToken)
     {
         var paciente = await _mediator.Send(
-            new GetPacienteByIdQuery(id));
+            new GetPacienteByIdQuery(id), cancellationToken);
 
         if (paciente is null)
             return NotFound();
@@ -30,10 +30,10 @@ public class PacientesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Paciente>> Create(Paciente paciente)
+    public async Task<ActionResult<Paciente>> Create(Paciente paciente, CancellationToken cancellationToken)
     {
         var creado = await _mediator.Send(
-            new CreatePacienteCommand(paciente));
+            new CreatePacienteCommand(paciente), cancellationToken);
 
         return Ok(creado);
     }

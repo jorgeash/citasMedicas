@@ -17,6 +17,6 @@ public class GetPacienteByIdHandler : IRequestHandler<GetPacienteByIdQuery, Paci
         GetPacienteByIdQuery request,
         CancellationToken cancellationToken)
     {
-        return await _repository.GetByIdAsync(request.Id);
+        return await _repository.GetByIdAsync(request.Id, cancellationToken);
     }
 }

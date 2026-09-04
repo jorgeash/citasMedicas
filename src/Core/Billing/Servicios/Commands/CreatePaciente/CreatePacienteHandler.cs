@@ -17,6 +17,6 @@ public class CreatePacienteHandler : IRequestHandler<CreatePacienteCommand, Paci
         CreatePacienteCommand request,
         CancellationToken cancellationToken)
     {
-        return await _repository.CreateAsync(request.Paciente);
+        return await _repository.CreateAsync(request.Paciente, cancellationToken);
     }
 }

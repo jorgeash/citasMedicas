@@ -20,19 +20,19 @@ public class ServiciosController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var servicios = await _mediator.Send(
-            new GetServiciosQuery());
+            new GetServiciosQuery(), cancellationToken);
 
         return Ok(servicios);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         var servicio = await _mediator.Send(
-            new GetServicioByIdQuery(id));
+            new GetServicioByIdQuery(id), cancellationToken);
 
         if (servicio is null)
         {
@@ -44,9 +44,10 @@ public class ServiciosController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromBody] CreateServicioCommand command)
+        [FromBody] CreateServicioCommand command,
+        CancellationToken cancellationToken)
     {
-        var servicio = await _mediator.Send(command);
+        var servicio = await _mediator.Send(command, cancellationToken);
 
         return CreatedAtAction(
             nameof(GetById),
@@ -57,14 +58,15 @@ public class ServiciosController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(
         int id,
-        [FromBody] UpdateServicioCommand command)
+        [FromBody] UpdateServicioCommand command,
+        CancellationToken cancellationToken)
     {
         if (id != command.ServicioID)
         {
             return BadRequest("El ID de la URL no coincide con el ID del servicio.");
         }
 
-        var servicio = await _mediator.Send(command);
+        var servicio = await _mediator.Send(command, cancellationToken);
 
         if (servicio is null)
         {
@@ -75,10 +77,10 @@ public class ServiciosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         var eliminado = await _mediator.Send(
-            new DeleteServicioCommand(id));
+            new DeleteServicioCommand(id), cancellationToken);
 
         if (!eliminado)
         {

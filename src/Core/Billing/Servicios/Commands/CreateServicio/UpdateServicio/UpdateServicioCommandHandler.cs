@@ -18,7 +18,7 @@ public class UpdateServicioCommandHandler
         UpdateServicioCommand request,
         CancellationToken cancellationToken)
     {
-        var servicio = await _repository.GetByIdAsync(request.ServicioID);
+        var servicio = await _repository.GetByIdAsync(request.ServicioID, cancellationToken);
 
         if (servicio is null)
         {
@@ -31,6 +31,6 @@ public class UpdateServicioCommandHandler
         servicio.Descripcion = request.Descripcion;
         servicio.Activo = request.Activo;
 
-        return await _repository.UpdateAsync(servicio);
+        return await _repository.UpdateAsync(servicio, cancellationToken);
     }
 }

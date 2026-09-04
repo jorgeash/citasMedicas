@@ -14,4 +14,8 @@
   <Folder Name="/MedicalAppointments.Persistence/">
     <Project Path="src/Persistence/Persistence.csproj" />
   </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Tests/">
+    <Project Path="src/Tests/Persistence.Tests.csproj" />
+  </Folder>
 </Solution>
