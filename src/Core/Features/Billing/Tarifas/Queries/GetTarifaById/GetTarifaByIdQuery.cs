@@ -1,6 +1,7 @@
 using Core.DTOs.Billing;
-using Domain.Billing.Interfaces;
+using Domain.Billing.Entities;
 using MediatR;
+using Domain.Interfaces;
 
 namespace Core.Features.Billing.Tarifas.Queries.GetTarifaById;
 
@@ -16,16 +17,16 @@ public class GetTarifaByIdQuery : IRequest<TarifaDto?>
 
 public class GetTarifaByIdQueryHandler : IRequestHandler<GetTarifaByIdQuery, TarifaDto?>
 {
-    private readonly ITarifaRepository _tarifaRepository;
+    private readonly IRepository<Tarifa> _repository;
 
-    public GetTarifaByIdQueryHandler(ITarifaRepository tarifaRepository)
+    public GetTarifaByIdQueryHandler(IRepository<Tarifa> repository)
     {
-        _tarifaRepository = tarifaRepository;
+        _repository = repository;
     }
 
     public async Task<TarifaDto?> Handle(GetTarifaByIdQuery request, CancellationToken cancellationToken)
     {
-        var tarifa = await _tarifaRepository.GetByIdAsync(request.TarifaID);
+        var tarifa = await _repository.GetByIdAsync(request.TarifaID);
 
         if (tarifa is null)
             return null;

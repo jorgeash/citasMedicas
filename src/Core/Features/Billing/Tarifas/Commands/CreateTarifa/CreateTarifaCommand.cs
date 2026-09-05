@@ -1,7 +1,6 @@
-using Core.DTOs.Billing;
 using Domain.Billing.Entities;
-using Domain.Billing.Interfaces;
 using MediatR;
+using Domain.Interfaces;
 
 namespace Core.Features.Billing.Tarifas.Commands.CreateTarifa;
 
@@ -19,10 +18,10 @@ public class CreateTarifaCommand : IRequest<int>
 
 public class CreateTarifaCommandHandler : IRequestHandler<CreateTarifaCommand, int>
 {
-    private readonly ITarifaRepository _tarifaRepository;
-    private readonly IServicioRepository _servicioRepository;
+    private readonly IRepository<Tarifa> _tarifaRepository;
+    private readonly IRepository<Servicio> _servicioRepository;
 
-    public CreateTarifaCommandHandler(ITarifaRepository tarifaRepository, IServicioRepository servicioRepository)
+    public CreateTarifaCommandHandler(IRepository<Tarifa> tarifaRepository, IRepository<Servicio> servicioRepository)
     {
         _tarifaRepository = tarifaRepository;
         _servicioRepository = servicioRepository;

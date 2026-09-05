@@ -1,6 +1,7 @@
 using Core.DTOs.Billing;
-using Domain.Billing.Interfaces;
+using Domain.Billing.Entities;
 using MediatR;
+using Domain.Interfaces;
 
 namespace Core.Features.Billing.Servicios.Queries.GetServicioById;
 
@@ -16,16 +17,16 @@ public class GetServicioByIdQuery : IRequest<ServicioDto?>
 
 public class GetServicioByIdQueryHandler : IRequestHandler<GetServicioByIdQuery, ServicioDto?>
 {
-    private readonly IServicioRepository _servicioRepository;
+    private readonly IRepository<Servicio> _repository;
 
-    public GetServicioByIdQueryHandler(IServicioRepository servicioRepository)
+    public GetServicioByIdQueryHandler(IRepository<Servicio> repository)
     {
-        _servicioRepository = servicioRepository;
+        _repository = repository;
     }
 
     public async Task<ServicioDto?> Handle(GetServicioByIdQuery request, CancellationToken cancellationToken)
     {
-        var servicio = await _servicioRepository.GetByIdAsync(request.ServicioID);
+        var servicio = await _repository.GetByIdAsync(request.ServicioID);
 
         if (servicio is null)
             return null;

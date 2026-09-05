@@ -1,6 +1,6 @@
 using Domain.Billing.Entities;
-using Domain.Billing.Interfaces;
 using MediatR;
+using Domain.Interfaces;
 
 namespace Core.Features.Billing.Servicios.Commands.CreateServicio;
 
@@ -15,11 +15,11 @@ public class CreateServicioCommand : IRequest<int>
 
 public class CreateServicioCommandHandler : IRequestHandler<CreateServicioCommand, int>
 {
-    private readonly IServicioRepository _servicioRepository;
+    private readonly IRepository<Servicio> _repository;
 
-    public CreateServicioCommandHandler(IServicioRepository servicioRepository)
+    public CreateServicioCommandHandler(IRepository<Servicio> repository)
     {
-        _servicioRepository = servicioRepository;
+        _repository = repository;
     }
 
     public async Task<int> Handle(CreateServicioCommand request, CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ public class CreateServicioCommandHandler : IRequestHandler<CreateServicioComman
             Activo = request.Activo
         };
 
-        var created = await _servicioRepository.AddAsync(servicio);
+        var created = await _repository.AddAsync(servicio);
         return created.ServicioID;
     }
 }
