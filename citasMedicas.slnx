@@ -1,17 +1,17 @@
 <Solution>
-  <Folder Name="/MedicalAppointments.Api/">
-    <Project Path="src/Api/Api/Api.csproj" Id="5c78a285-b2a4-48d5-9b26-d6b26ec51c7d" />
+  <Folder Name="/Shared.Kernel/">
+    <Project Path="src/Shared.Kernel/Shared.Kernel.csproj" Id="a1b2c3d4-e5f6-7890-abcd-ef1234567890" />
   </Folder>
-  <Folder Name="/MedicalAppointments.Core/">
-    <Project Path="src/Core/Core.csproj" />
+  <Folder Name="/Billing.Service/Billing.Domain/">
+    <Project Path="src/Billing.Service/Billing.Domain/Billing.Domain.csproj" Id="b2c3d4e5-f6a7-8901-bcde-f12345678901" />
   </Folder>
-  <Folder Name="/MedicalAppointments.Domain/">
-    <Project Path="src/Domain/Domain.csproj" />
+  <Folder Name="/Billing.Service/Billing.Core/">
+    <Project Path="src/Billing.Service/Billing.Core/Billing.Core.csproj" Id="c3d4e5f6-a7b8-9012-cdef-123456789012" />
   </Folder>
-  <Folder Name="/MedicalAppointments.Infrastructure/">
-    <Project Path="src/Infrastructure/Infrastructure.csproj" />
+  <Folder Name="/Billing.Service/Billing.Persistence/">
+    <Project Path="src/Billing.Service/Billing.Persistence/Billing.Persistence.csproj" Id="d4e5f6a7-b8c9-0123-defa-234567890123" />
   </Folder>
-  <Folder Name="/MedicalAppointments.Persistence/">
-    <Project Path="src/Persistence/Persistence.csproj" />
+  <Folder Name="/Billing.Service/Billing.Api/">
+    <Project Path="src/Billing.Service/Billing.Api/Billing.Api.csproj" Id="e5f6a7b8-c9d0-1234-efab-345678901234" />
   </Folder>
 </Solution>
