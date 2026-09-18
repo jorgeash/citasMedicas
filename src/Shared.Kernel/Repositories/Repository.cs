@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Shared.Kernel.Entities;
 using Shared.Kernel.Interfaces;
 
 namespace Shared.Kernel.Repositories;
@@ -54,5 +55,46 @@ public class Repository<T> : IRepository<T> where T : class
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
+    }
+
+    public async Task<PagedResult<T>> GetPagedAsync(
+        int pageNumber,
+        int pageSize,
+        Expression<Func<T, bool>>? filter = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+        bool asNoTracking = true,
+        bool splitQuery = false,
+        CancellationToken cancellationToken = default,
+        params Expression<Func<T, object>>[] includes)
+    {
+        if (pageNumber < 1) throw new ArgumentOutOfRangeException(nameof(pageNumber), "pageNumber must be 1 or greater.");
+        if (pageSize < 1) throw new ArgumentOutOfRangeException(nameof(pageSize), "pageSize must be 1 or greater.");
+
+        var query = ApplyIncludes(asNoTracking ? _dbSet.AsNoTracking() : _dbSet.AsQueryable(), includes);
+
+        if (filter != null) query = query.Where(filter);
+        if (splitQuery) query = query.AsSplitQuery();
+
+        int totalRecords = await query.CountAsync(cancellationToken);
+
+        query = orderBy != null ? orderBy(query) : query;
+        query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+        var data = await query.ToListAsync(cancellationToken);
+
+        return new PagedResult<T>
+        {
+            Data = data,
+            TotalRecords = totalRecords,
+            PageSize = pageSize,
+            CurrentPage = pageNumber
+        };
+    }
+
+    private static IQueryable<T> ApplyIncludes(IQueryable<T> query, Expression<Func<T, object>>[] includes)
+    {
+        foreach (var include in includes)
+            query = query.Include(include);
+        return query;
     }
 }

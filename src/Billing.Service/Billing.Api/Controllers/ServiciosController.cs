@@ -19,9 +19,10 @@ public class ServiciosController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<ServicioDto>> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] GetServiciosQuery query)
     {
-        return await _mediator.Send(new GetServiciosQuery());
+        var result = await _mediator.Send(query);
+        return Ok(result.Data);
     }
 
     [HttpGet("{id:int}")]

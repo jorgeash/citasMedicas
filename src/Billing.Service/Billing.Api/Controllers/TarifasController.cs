@@ -20,9 +20,10 @@ public class TarifasController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<TarifaDto>> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] GetTarifasQuery query)
     {
-        return await _mediator.Send(new GetTarifasQuery());
+        var result = await _mediator.Send(query);
+        return Ok(result.Data);
     }
 
     [HttpGet("{id:int}")]

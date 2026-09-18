@@ -1,28 +1,41 @@
+using Billing.Core.DTOs;
 using Billing.Core.DTOs.Billing;
 using Billing.Core.Interfaces.Repositories;
 using Billing.Domain.Entities;
 using MediatR;
+using Shared.Kernel.Helpers;
 
 namespace Billing.Core.Features.Billing.Tarifas.Queries.GetTarifas;
 
-public class GetTarifasQuery : IRequest<IEnumerable<TarifaDto>>
+public class GetTarifasQuery : RequestParameters, IRequest<HttpResponse<PagedDto<List<TarifaDto>>>>
 {
 }
 
-public class GetTarifasQueryHandler : IRequestHandler<GetTarifasQuery, IEnumerable<TarifaDto>>
+public class GetTarifasQueryEventHandler : IRequestHandler<GetTarifasQuery, HttpResponse<PagedDto<List<TarifaDto>>>>
 {
-    private readonly ITarifaRepository _repository;
+    private readonly ITarifaRepository _tarifaRepository;
 
-    public GetTarifasQueryHandler(ITarifaRepository repository)
+    public GetTarifasQueryEventHandler(ITarifaRepository tarifaRepository)
     {
-        _repository = repository;
+        _tarifaRepository = tarifaRepository;
     }
 
-    public async Task<IEnumerable<TarifaDto>> Handle(GetTarifasQuery request, CancellationToken cancellationToken)
+    public async Task<HttpResponse<PagedDto<List<TarifaDto>>>> Handle(GetTarifasQuery request, CancellationToken cancellationToken)
     {
-        var tarifas = await _repository.GetAllAsync();
+        var result = await _tarifaRepository.GetPagedAsync(
+            request.PageNumber,
+            request.PageSize,
+            !string.IsNullOrEmpty(request.Filter) ? Filter.FromStringExpression<Tarifa>(request.Filter) : null,
+            cancellationToken: cancellationToken);
 
-        return tarifas.Select(MapToDto);
+        return new HttpResponse<PagedDto<List<TarifaDto>>>(new PagedDto<List<TarifaDto>>()
+        {
+            CurrentPage = result.CurrentPage,
+            PageSize = result.PageSize,
+            TotalPage = result.TotalPage,
+            TotalRecords = result.TotalRecords,
+            Data = result.Data.Select(MapToDto).ToList()
+        });
     }
 
     private static TarifaDto MapToDto(Tarifa t)
