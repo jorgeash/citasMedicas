@@ -1,5 +1,6 @@
 using Billing.Core.DTOs.Billing;
 using Billing.Core.Features.Billing.Servicios.Commands.CreateServicio;
+using Billing.Core.Features.Billing.Servicios.Commands.CreateServiciosBulk;
 using Billing.Core.Features.Billing.Servicios.Queries.GetServicios;
 using Billing.Core.Features.Billing.Servicios.Queries.GetServicioById;
 using MediatR;
@@ -39,5 +40,12 @@ public class ServiciosController : ControllerBase
     {
         var id = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id }, id);
+    }
+
+    [HttpPost("bulk")]
+    public async Task<IActionResult> PostBulk([FromBody] CreateServiciosBulkCommand command)
+    {
+        var count = await _mediator.Send(command);
+        return Ok(new { message = $"{count} servicios creados correctamente" });
     }
 }

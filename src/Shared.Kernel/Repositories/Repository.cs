@@ -57,6 +57,20 @@ public class Repository<T> : IRepository<T> where T : class
         }
     }
 
+
+    public async Task<T?> GetOneByAsync(
+        Expression<Func<T, bool>>? filter = null,
+        bool asNoTracking = true,
+        bool splitQuery = false,
+        CancellationToken cancellationToken = default,
+        params Expression<Func<T, object>>[] includes)
+    {
+        var query = ApplyIncludes(asNoTracking ? _dbSet.AsNoTracking() : _dbSet.AsQueryable(), includes);
+        if (filter != null) query = query.Where(filter);
+        if (splitQuery) query = query.AsSplitQuery();
+        return await query.FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<PagedResult<T>> GetPagedAsync(
         int pageNumber,
         int pageSize,
@@ -89,6 +103,18 @@ public class Repository<T> : IRepository<T> where T : class
             PageSize = pageSize,
             CurrentPage = pageNumber
         };
+    }
+
+    public async Task AddRangeAsync(IEnumerable<T> entities)
+    {
+        await _dbSet.AddRangeAsync(entities);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateRangeAsync(IEnumerable<T> entities)
+    {
+        _dbSet.UpdateRange(entities);
+        await _context.SaveChangesAsync();
     }
 
     private static IQueryable<T> ApplyIncludes(IQueryable<T> query, Expression<Func<T, object>>[] includes)

@@ -20,4 +20,19 @@ public static class Filter
             throw new ValidationException("filter expression invalid");
         }
     }
+
+    public static Func<IQueryable<T>, IOrderedQueryable<T>>? ParseOrderBy<T>(string orderBy) where T : class
+    {
+        if (string.IsNullOrWhiteSpace(orderBy))
+            return null;
+
+        try
+        {
+            return query => query.OrderBy(orderBy);
+        }
+        catch
+        {
+            throw new ValidationException("orderBy expression invalid");
+        }
+    }
 }

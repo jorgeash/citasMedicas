@@ -12,4 +12,5 @@ public class RequestParameters
         set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
     }
     public string? Filter { get; set; }
+    public string? OrderBy { get; set; }
 }

@@ -11,6 +11,12 @@ public interface IRepository<T> where T : class
     Task<T> AddAsync(T entity);
     Task UpdateAsync(T entity);
     Task DeleteAsync(int id);
+    Task<T?> GetOneByAsync(
+        Expression<Func<T, bool>>? filter = null,
+        bool asNoTracking = true,
+        bool splitQuery = false,
+        CancellationToken cancellationToken = default,
+        params Expression<Func<T, object>>[] includes);
     Task<PagedResult<T>> GetPagedAsync(
         int pageNumber,
         int pageSize,
@@ -20,4 +26,6 @@ public interface IRepository<T> where T : class
         bool splitQuery = false,
         CancellationToken cancellationToken = default,
         params Expression<Func<T, object>>[] includes);
+    Task AddRangeAsync(IEnumerable<T> entities);
+    Task UpdateRangeAsync(IEnumerable<T> entities);
 }

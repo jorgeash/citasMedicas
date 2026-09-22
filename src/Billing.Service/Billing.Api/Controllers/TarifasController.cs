@@ -1,8 +1,10 @@
 using Billing.Core.DTOs.Billing;
 using Billing.Core.Features.Billing.Tarifas.Commands.CreateTarifa;
+using Billing.Core.Features.Billing.Tarifas.Commands.CreateTarifasBulk;
 using Billing.Core.Features.Billing.Tarifas.Queries.GetTarifas;
 using Billing.Core.Features.Billing.Tarifas.Queries.GetTarifaById;
 using Billing.Core.Features.Billing.Tarifas.Queries.GetTarifasByServicio;
+using Billing.Core.Features.Billing.Tarifas.Queries.GetOneTarifaByFilter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,10 +46,26 @@ public class TarifasController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("filter")]
+    public async Task<IActionResult> GetOneByFilter([FromQuery] string filter)
+    {
+        var result = await _mediator.Send(new GetOneTarifaByFilterQuery { Filter = filter });
+        if (result is null)
+            return NotFound();
+        return Ok(result);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateTarifaCommand command)
     {
         var id = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new { id }, id);
+    }
+
+    [HttpPost("bulk")]
+    public async Task<IActionResult> PostBulk([FromBody] CreateTarifasBulkCommand command)
+    {
+        var count = await _mediator.Send(command);
+        return Ok(new { message = $"{count} tarifas creadas correctamente" });
     }
 }
