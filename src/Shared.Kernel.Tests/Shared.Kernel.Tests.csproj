@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Shared.Kernel.csproj" />
+	<ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>
