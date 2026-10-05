@@ -1,12 +1,15 @@
+using Billing.Core.Configs;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Billing.Core;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(
-        this IServiceCollection services)
+    public static IServiceCollection AddCore(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         var assembly = Assembly.GetExecutingAssembly();
 
@@ -32,6 +35,9 @@ public static class DependencyInjection
 
             throw;
         }
+
+        services.Configure<DownstreamOptions>(configuration.GetSection("Downstream"));
+        services.Configure<PasarelaOptions>(configuration.GetSection("Pasarela"));
 
         return services;
     }
