@@ -1,0 +1,167 @@
+﻿########## Addresses.Api - puerto 5310 ##########
+Usando la configuración de inicio de src\Addresses\Addresses.Api\Properties\launchSettings.json...
+[20:34:19 INF] Now listening on: http://localhost:5310
+[20:34:19 INF] Application started. Press Ctrl+C to shut down.
+[20:34:19 INF] Hosting environment: Development
+[20:34:19 INF] Content root path: C:\Tareas NET\citasMedicas-Main\src\Addresses\Addresses.Api
+[20:56:35 INF] Executed DbCommand (54ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Addresses_Position] AS [a]
+[20:56:36 INF] Executed DbCommand (31ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [a1].[Id], [a1].[Address], [a1].[CityId], [a1].[CreatedAt], [a1].[CustomerId], [a1].[IsActive], [a1].[Latitude], [a1].[Longitude], [a1].[UpdatedAt], [a1].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a2].[Id], [a2].[CreatedAt], [a2].[IsActive], [a2].[Name], [a2].[UpdatedAt]
+FROM (
+    SELECT [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode]
+    FROM [Addresses_Position] AS [a]
+    ORDER BY [a].[Id]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [a1]
+INNER JOIN [Addresses_City] AS [a0] ON [a1].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a2] ON [a0].[CountryId] = [a2].[Id]
+ORDER BY [a1].[Id]
+[20:56:54 INF] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Addresses_Position] AS [a]
+[20:56:54 INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [a1].[Id], [a1].[Address], [a1].[CityId], [a1].[CreatedAt], [a1].[CustomerId], [a1].[IsActive], [a1].[Latitude], [a1].[Longitude], [a1].[UpdatedAt], [a1].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a2].[Id], [a2].[CreatedAt], [a2].[IsActive], [a2].[Name], [a2].[UpdatedAt]
+FROM (
+    SELECT [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode]
+    FROM [Addresses_Position] AS [a]
+    ORDER BY [a].[Id]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [a1]
+INNER JOIN [Addresses_City] AS [a0] ON [a1].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a2] ON [a0].[CountryId] = [a2].[Id]
+ORDER BY [a1].[Id]
+[20:56:54 INF] Executed DbCommand (6ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a1].[Id], [a1].[CreatedAt], [a1].[IsActive], [a1].[Name], [a1].[UpdatedAt]
+FROM [Addresses_Position] AS [a]
+INNER JOIN [Addresses_City] AS [a0] ON [a].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a1] ON [a0].[CountryId] = [a1].[Id]
+WHERE [a].[Id] = @__request_Id_0
+[20:56:54 INF] Executed DbCommand (1ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a1].[Id], [a1].[CreatedAt], [a1].[IsActive], [a1].[Name], [a1].[UpdatedAt]
+FROM [Addresses_Position] AS [a]
+INNER JOIN [Addresses_City] AS [a0] ON [a].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a1] ON [a0].[CountryId] = [a1].[Id]
+WHERE [a].[Id] = @__request_Id_0
+[20:56:54 INF] Executed DbCommand (0ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a1].[Id], [a1].[CreatedAt], [a1].[IsActive], [a1].[Name], [a1].[UpdatedAt]
+FROM [Addresses_Position] AS [a]
+INNER JOIN [Addresses_City] AS [a0] ON [a].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a1] ON [a0].[CountryId] = [a1].[Id]
+WHERE [a].[Id] = @__request_Id_0
+[20:56:54 INF] Executed DbCommand (0ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a1].[Id], [a1].[CreatedAt], [a1].[IsActive], [a1].[Name], [a1].[UpdatedAt]
+FROM [Addresses_Position] AS [a]
+INNER JOIN [Addresses_City] AS [a0] ON [a].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a1] ON [a0].[CountryId] = [a1].[Id]
+WHERE [a].[Id] = @__request_Id_0
+[20:56:55 INF] Executed DbCommand (0ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a1].[Id], [a1].[CreatedAt], [a1].[IsActive], [a1].[Name], [a1].[UpdatedAt]
+FROM [Addresses_Position] AS [a]
+INNER JOIN [Addresses_City] AS [a0] ON [a].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a1] ON [a0].[CountryId] = [a1].[Id]
+WHERE [a].[Id] = @__request_Id_0
+[20:56:55 INF] Executed DbCommand (0ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[Address], [a].[CityId], [a].[CreatedAt], [a].[CustomerId], [a].[IsActive], [a].[Latitude], [a].[Longitude], [a].[UpdatedAt], [a].[ZipCode], [a0].[Id], [a0].[CountryId], [a0].[CreatedAt], [a0].[IsActive], [a0].[Name], [a0].[UpdatedAt], [a1].[Id], [a1].[CreatedAt], [a1].[IsActive], [a1].[Name], [a1].[UpdatedAt]
+FROM [Addresses_Position] AS [a]
+INNER JOIN [Addresses_City] AS [a0] ON [a].[CityId] = [a0].[Id]
+INNER JOIN [Addresses_Country] AS [a1] ON [a0].[CountryId] = [a1].[Id]
+WHERE [a].[Id] = @__request_Id_0
+
+########## Business.Api (Customers) - puerto 5320 ##########
+Usando la configuración de inicio de src\Customers\Business.Api\Properties\launchSettings.json...
+[20:34:20 INF] Now listening on: http://localhost:5320
+[20:34:20 INF] Application started. Press Ctrl+C to shut down.
+[20:34:20 INF] Hosting environment: Development
+[20:34:20 INF] Content root path: C:\Tareas NET\citasMedicas-Main\src\Customers\Business.Api
+[20:56:38 INF] Executed DbCommand (33ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Business_Customer] AS [b]
+[20:56:38 INF] Executed DbCommand (30ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [b1].[Id], [b1].[Code], [b1].[CompanyId], [b1].[CreatedAt], [b1].[CustomerTypeId], [b1].[Email], [b1].[IsActive], [b1].[LocationId], [b1].[Name], [b1].[UpdatedAt], [b0].[Id], [b0].[CreatedAt], [b0].[IsActive], [b0].[Name], [b0].[UpdatedAt], [b2].[Id], [b2].[CreatedAt], [b2].[IsActive], [b2].[MainEmail], [b2].[Name], [b2].[Sigla], [b2].[UpdatedAt]
+FROM (
+    SELECT [b].[Id], [b].[Code], [b].[CompanyId], [b].[CreatedAt], [b].[CustomerTypeId], [b].[Email], [b].[IsActive], [b].[LocationId], [b].[Name], [b].[UpdatedAt]
+    FROM [Business_Customer] AS [b]
+    ORDER BY [b].[Id]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [b1]
+INNER JOIN [Business_CustomerType] AS [b0] ON [b1].[CustomerTypeId] = [b0].[Id]
+INNER JOIN [Business_Company] AS [b2] ON [b1].[CompanyId] = [b2].[Id]
+ORDER BY [b1].[Id]
+[20:56:54 INF] Executed DbCommand (3ms) [Parameters=[@__code_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[Code], [b].[CompanyId], [b].[CreatedAt], [b].[CustomerTypeId], [b].[Email], [b].[IsActive], [b].[LocationId], [b].[Name], [b].[UpdatedAt]
+FROM [Business_Customer] AS [b]
+WHERE [b].[Code] = @__code_0
+[20:56:54 INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[CreatedAt], [b].[IsActive], [b].[Name], [b].[UpdatedAt]
+FROM [Business_CustomerType] AS [b]
+WHERE [b].[Id] = @__p_0
+[20:56:54 INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[CreatedAt], [b].[IsActive], [b].[MainEmail], [b].[Name], [b].[Sigla], [b].[UpdatedAt]
+FROM [Business_Company] AS [b]
+WHERE [b].[Id] = @__p_0
+[20:56:54 INF] Sending GET request to http://localhost:5310/api/positions/1
+[20:56:54 INF] Start processing HTTP request GET http://localhost:5310/api/positions/1
+[20:56:54 INF] Sending HTTP request GET http://localhost:5310/api/positions/1
+[20:56:54 INF] Received HTTP response headers after 40.5956ms - 200
+[20:56:54 INF] Execution attempt. Source: 'IRest-standard//Standard-Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 59.079ms
+[20:56:54 INF] End processing HTTP request after 114.3431ms - 200
+[20:56:54 INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (Size = 50), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32), @p4='?' (Size = 200), @p5='?' (DbType = Boolean), @p6='?' (DbType = Int32), @p7='?' (Size = 200), @p8='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Business_Customer] ([Code], [CompanyId], [CreatedAt], [CustomerTypeId], [Email], [IsActive], [LocationId], [Name], [UpdatedAt])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+[20:56:54 INF] Executed DbCommand (1ms) [Parameters=[@__code_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[Code], [b].[CompanyId], [b].[CreatedAt], [b].[CustomerTypeId], [b].[Email], [b].[IsActive], [b].[LocationId], [b].[Name], [b].[UpdatedAt]
+FROM [Business_Customer] AS [b]
+WHERE [b].[Code] = @__code_0
+[20:56:54 INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[CreatedAt], [b].[IsActive], [b].[Name], [b].[UpdatedAt]
+FROM [Business_CustomerType] AS [b]
+WHERE [b].[Id] = @__p_0
+[20:56:54 INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[CreatedAt], [b].[IsActive], [b].[MainEmail], [b].[Name], [b].[Sigla], [b].[UpdatedAt]
+FROM [Business_Company] AS [b]
+WHERE [b].[Id] = @__p_0
+[20:56:54 INF] Sending GET request to http://localhost:5310/api/positions/3
+[20:56:54 INF] Start processing HTTP request GET http://localhost:5310/api/positions/3
+[20:56:54 INF] Sending HTTP request GET http://localhost:5310/api/positions/3
+[20:56:54 INF] Received HTTP response headers after 15.5483ms - 200
+[20:56:54 INF] Execution attempt. Source: 'IRest-standard//Standard-Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 16.6704ms
+[20:56:54 INF] End processing HTTP request after 18.2868ms - 200
+[20:56:54 INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (Size = 50), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32), @p4='?' (Size = 200), @p5='?' (DbType = Boolean), @p6='?' (DbType = Int32), @p7='?' (Size = 200), @p8='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Business_Customer] ([Code], [CompanyId], [CreatedAt], [CustomerTypeId], [Email], [IsActive], [LocationId], [Name], [UpdatedAt])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+[20:56:55 INF] Executed DbCommand (5ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[Code], [b].[CompanyId], [b].[CreatedAt], [b].[CustomerTypeId], [b].[Email], [b].[IsActive], [b].[LocationId], [b].[Name], [b].[UpdatedAt], [b0].[Id], [b0].[CreatedAt], [b0].[IsActive], [b0].[Name], [b0].[UpdatedAt], [b1].[Id], [b1].[CreatedAt], [b1].[IsActive], [b1].[MainEmail], [b1].[Name], [b1].[Sigla], [b1].[UpdatedAt]
+FROM [Business_Customer] AS [b]
+INNER JOIN [Business_CustomerType] AS [b0] ON [b].[CustomerTypeId] = [b0].[Id]
+INNER JOIN [Business_Company] AS [b1] ON [b].[CompanyId] = [b1].[Id]
+WHERE [b].[Id] = @__request_Id_0
+[20:56:55 INF] Sending GET request to http://localhost:5310/api/positions/1
+[20:56:55 INF] Start processing HTTP request GET http://localhost:5310/api/positions/1
+[20:56:55 INF] Sending HTTP request GET http://localhost:5310/api/positions/1
+[20:56:55 INF] Received HTTP response headers after 4.8624ms - 200
+[20:56:55 INF] Execution attempt. Source: 'IRest-standard//Standard-Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 5.9369ms
+[20:56:55 INF] End processing HTTP request after 7.1761ms - 200
+[20:56:55 INF] Executed DbCommand (0ms) [Parameters=[@__request_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[Code], [b].[CompanyId], [b].[CreatedAt], [b].[CustomerTypeId], [b].[Email], [b].[IsActive], [b].[LocationId], [b].[Name], [b].[UpdatedAt], [b0].[Id], [b0].[CreatedAt], [b0].[IsActive], [b0].[Name], [b0].[UpdatedAt], [b1].[Id], [b1].[CreatedAt], [b1].[IsActive], [b1].[MainEmail], [b1].[Name], [b1].[Sigla], [b1].[UpdatedAt]
+FROM [Business_Customer] AS [b]
+INNER JOIN [Business_CustomerType] AS [b0] ON [b].[CustomerTypeId] = [b0].[Id]
+INNER JOIN [Business_Company] AS [b1] ON [b].[CompanyId] = [b1].[Id]
+WHERE [b].[Id] = @__request_Id_0
+[20:56:55 INF] Sending GET request to http://localhost:5310/api/positions/3
+[20:56:55 INF] Start processing HTTP request GET http://localhost:5310/api/positions/3
+[20:56:55 INF] Sending HTTP request GET http://localhost:5310/api/positions/3
+[20:56:55 INF] Received HTTP response headers after 4.2945ms - 200
+[20:56:55 INF] Execution attempt. Source: 'IRest-standard//Standard-Retry', Operation Key: 'null', Result: '200', Handled: 'False', Attempt: '0', Execution Time: 5.3314ms
+[20:56:55 INF] End processing HTTP request after 6.2686ms - 200
+
+########## Verificacion HTTP de ambos microservicios ##########
+GET http://localhost:5310/api/positions -> Addresses OK. TotalRecords=4
+GET http://localhost:5320/api/customers  -> Customers OK. TotalRecords=1 (antes de crear los clientes de la actividad)

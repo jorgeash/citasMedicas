@@ -29,6 +29,39 @@
   <Folder Name="/Billing.Service/Billing.Tests/">
     <Project Path="src/Billing.Service/Billing.Tests/Billing.Tests.csproj" Id="f0a1b2c3-d4e5-4234-8567-890123456789" />
   </Folder>
+  <Folder Name="/Addresses.Service/Addresses.Domain/">
+    <Project Path="src/Addresses/Addresses.Domain/Addresses.Domain.csproj" Id="bf6562ee-8e5e-4b2d-8fad-7b95ad420852" />
+  </Folder>
+  <Folder Name="/Addresses.Service/Addresses.Core/">
+    <Project Path="src/Addresses/Addresses.Core/Addresses.Core.csproj" Id="7590d56c-5373-4fc5-86d9-827c1a7bbbd1" />
+  </Folder>
+  <Folder Name="/Addresses.Service/Addresses.Persistence/">
+    <Project Path="src/Addresses/Addresses.Persistence/Addresses.Persistence.csproj" Id="21fa6759-65f3-49d4-adc4-64bfca90d189" />
+  </Folder>
+  <Folder Name="/Addresses.Service/Addresses.Api/">
+    <Project Path="src/Addresses/Addresses.Api/Addresses.Api.csproj" Id="f20ab25d-4a50-445f-83f1-bdda3785140d" />
+  </Folder>
+  <Folder Name="/Customers.Service/Business.Domain/">
+    <Project Path="src/Customers/Business.Domain/Business.Domain.csproj" Id="05a9742e-b9a0-4c70-949b-616fe724e5d0" />
+  </Folder>
+  <Folder Name="/Customers.Service/Business.Core/">
+    <Project Path="src/Customers/Business.Core/Business.Core.csproj" Id="68550d2a-2f47-4312-8c32-2ba13abe3c74" />
+  </Folder>
+  <Folder Name="/Customers.Service/Business.Persistence/">
+    <Project Path="src/Customers/Business.Persistence/Business.Persistence.csproj" Id="520a342d-5caf-43ad-bde3-0c9fda685d1b" />
+  </Folder>
+  <Folder Name="/Customers.Service/Business.Infraestructure/">
+    <Project Path="src/Customers/Business.Infraestructure/Business.Infraestructure.csproj" Id="322e9ab1-82ca-4553-a8db-6cddbf8434fa" />
+  </Folder>
+  <Folder Name="/Customers.Service/Business.Api/">
+    <Project Path="src/Customers/Business.Api/Business.Api.csproj" Id="1ade2708-2079-4085-8489-3f07c3de0bd4" />
+  </Folder>
+  <Folder Name="/Customers.Service/Business.RestClient/">
+    <Project Path="src/Customers/Business.RestClient/Business.RestClient.csproj" Id="7d1f4c2a-6b90-4f3e-9a55-2c8b6d1e4f70" />
+  </Folder>
+  <Folder Name="/Customers.Service/Business.Tests/">
+    <Project Path="src/Customers/Business.Tests/Business.Tests.csproj" Id="e63a1c74-95b8-4d2f-8e13-7a4c5b9d2f81" />
+  </Folder>
   <Folder Name="/Notifications.Service/Notifications.Domain/">
     <Project Path="src/Notifications.Service/Notifications.Domain/Notifications.Domain.csproj" Id="1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d" />
   </Folder>

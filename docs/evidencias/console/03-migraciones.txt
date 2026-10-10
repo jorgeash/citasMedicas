@@ -1,0 +1,18 @@
+﻿-- =====================================================================
+-- MIGRACIONES APLICADAS - Base de datos ClinicaDB (SQL Server LocalDB)
+-- =====================================================================
+PS C:\Tareas NET\citasMedicas-Main> dotnet ef database update --project src\Addresses\Addresses.Persistence --startup-project src\Addresses\Addresses.Api
+[INF] SELECT [MigrationId], [ProductVersion] FROM [__EFMigrationsHistory] ORDER BY [MigrationId];
+[INF] No migrations were applied. The database is already up to date.
+Done.
+
+PS C:\Tareas NET\citasMedicas-Main> dotnet ef database update --project src\Customers\Business.Persistence --startup-project src\Customers\Business.Api
+[INF] SELECT [MigrationId], [ProductVersion] FROM [__EFMigrationsHistory] ORDER BY [MigrationId];
+[INF] No migrations were applied. The database is already up to date.
+Done.
+
+PS C:\Tareas NET\citasMedicas-Main> sqlcmd -S "(localdb)\mssqllocaldb" -d ClinicaDB -Q "SELECT MigrationId, ProductVersion FROM __EFMigrationsHistory"
+MigrationId ProductVersion
+----------- --------------
+20261006010523_InitialAddresses 9.0.0
+20261006010620_InitialBusiness 9.0.0

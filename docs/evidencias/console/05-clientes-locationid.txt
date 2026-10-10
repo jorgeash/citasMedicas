@@ -1,0 +1,11 @@
+﻿-- =====================================================================
+-- CLIENTES CREADOS CON LA LIBRERIA REST - Referencia LocationId
+-- Los clientes CLI-0002 y CLI-0003 se crearon con IRest.Post del paquete
+-- NugetPackage_Rest. LocationId apunta a la tabla Addresses_Position.
+-- =====================================================================
+PS> sqlcmd -S "(localdb)\mssqllocaldb" -d ClinicaDB -Q "SELECT c.Id, c.Code, c.Name, c.LocationId, p.Address, p.ZipCode, p.CityId FROM Business_Customer c JOIN Addresses_Position p ON p.Id = c.LocationId ORDER BY c.Id"
+Id Code Name CustomerTypeId CompanyId LocationId Address ZipCode
+-- ---- ---- -------------- --------- ---------- ------- -------
+1 CLI-0001 Distribuidora Andina CIA LTDA 1 2 2 Av. Francisco de Orellana EO7-22, Piso 3 EC010201
+2 CLI-0002 Clinica Vida Salud S.A. 1 1 1 Av. Amazonas N34-1234, Edificio Clinica Norte EC010101
+3 CLI-0003 EPS-total Salud S.A. 3 3 3 Av. 9 de Octubre y Los Rios, Torre Norte EC090100

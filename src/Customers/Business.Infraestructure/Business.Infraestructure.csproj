@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.10" />
+    <!-- Resiliencia estandar: reintentos con backoff + circuit breaker para el consumo
+         del microservicio de Addresses. -->
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Business.Core\Business.Core.csproj" />
+    <!-- Monorepo: la libreria REST se referencia como proyecto, sin publicar el .nupkg -->
+    <ProjectReference Include="..\..\NugetPackage_Rest\NugetPackage_Rest.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Business.Tests" PublicKey="0024000004800000140100000602000000240000525341310008000001000100790cb13a9037de0d66caaf827ba30dd2c0ac6a731a6b109ecbaf6257333b2605d245315aafc38639b0dd82cc2b2af7dc82fb806065835adfd9e8b6bd2595dd548c8b26e5e9ecaebfcd7c11e74b9739ed4f5d4ec098b327f2c60432bfc6464a7ab4be1555c8d2a6725a23cf22407f747be2de1dd29c49fe78637e65f509e35bbc4641aff64d49521f6a1ee86153aedd86398e39cbf5394297a0a38841bab8f4190a737deb1b7ec817f43eda743b9f86b30be1bbde3a10aa9648e73b630811e37a40916ffa5054a10dc5177753b4a8fb0f07aed37dba5d2386ddfd252dac7f3e6951f9217724b82e9897165b23297a4b09170cd1c3b3a3cabd905aa2ffc82b2fc2" />
+  </ItemGroup>
+
+</Project>

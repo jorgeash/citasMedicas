@@ -1,0 +1,42 @@
+﻿=====================================================================
+ CLIENTE DE LA ACTIVIDAD - Todos los request usan la libreria
+ NugetPackage_Rest (IRest / RestBuilder)
+=====================================================================
+ Addresses.Api : http://localhost:5310
+ Business.Api  : http://localhost:5320
+
+PASO 1  GET  {Addresses}/api/positions?pageNumber=1&pageSize=50&orderBy=Id
+[20:56:53 INF] Sending GET request to http://localhost:5310/api/positions?pageNumber=1&pageSize=50&orderBy=Id
+        Tabla Addresses_Position: 4 direcciones de prueba
+        [LocationId 1] Av. Amazonas N34-1234, Edificio Clinica Norte | Quito, Ecuador | CP EC010101 | Lat -0.1807 Lon -78.4678 | CustomerId null
+        [LocationId 2] Av. Francisco de Orellana EO7-22, Piso 3 | Quito, Ecuador | CP EC010201 | Lat -0.1700 Lon -78.4500 | CustomerId null
+        [LocationId 3] Av. 9 de Octubre y Los Rios, Torre Norte | Guayaquil, Ecuador | CP EC090100 | Lat -2.1894 Lon -79.8891 | CustomerId null
+        [LocationId 4] Calle 100 # 11-60, Local 204 | Bogota, Colombia | CP CO110111 | Lat 4.7110 Lon -74.0721 | CustomerId null
+[20:56:54 INF] Sending GET request to http://localhost:5310/api/positions/1
+
+PASO 2  POST http://localhost:5320/api/customers   (IRest.Post.WithBody)
+        Body: { "Code": "CLI-0002", "Name": "Clinica Vida Salud S.A.", "CustomerTypeId": 1, "CompanyId": 1, "LocationId": 1 }
+        LocationId 1 resuelve a: "Av. Amazonas N34-1234, Edificio Clinica Norte" (Quito)
+[20:56:54 INF] Sending POST request to http://localhost:5320/api/customers with body: {"Code":"CLI-0002","Name":"Clinica Vida Salud S.A.","Email":"facturacion@clinicavidasalud.example","CustomerTypeId":1,"CompanyId":1,"LocationId":1}
+        Respuesta 201: Cliente Id 2 | CLI-0002 | Clinica Vida Salud S.A. | Tipo 1 (Empresa) | Empresa 1 (Clinica Vida Salud S.A.)
+        LocationId persistido: 1 -> Av. Amazonas N34-1234, Edificio Clinica Norte, Quito, Ecuador
+[20:56:54 INF] Sending GET request to http://localhost:5310/api/positions/3
+
+PASO 2  POST http://localhost:5320/api/customers   (IRest.Post.WithBody)
+        Body: { "Code": "CLI-0003", "Name": "EPS-total Salud S.A.", "CustomerTypeId": 3, "CompanyId": 3, "LocationId": 3 }
+        LocationId 3 resuelve a: "Av. 9 de Octubre y Los Rios, Torre Norte" (Guayaquil)
+[20:56:54 INF] Sending POST request to http://localhost:5320/api/customers with body: {"Code":"CLI-0003","Name":"EPS-total Salud S.A.","Email":"pagos@epstotal.example","CustomerTypeId":3,"CompanyId":3,"LocationId":3}
+        Respuesta 201: Cliente Id 3 | CLI-0003 | EPS-total Salud S.A. | Tipo 3 (EPS / Aseguradora) | Empresa 3 (EPS-total Salud S.A.)
+        LocationId persistido: 3 -> Av. 9 de Octubre y Los Rios, Torre Norte, Guayaquil, Ecuador
+
+PASO 3  GET  {Customers}/api/customers/{id}   (verificacion de la persistencia)
+[20:56:54 INF] Sending GET request to http://localhost:5320/api/customers/2
+        Cliente 2: CLI-0002 | Clinica Vida Salud S.A. | LocationId 1 | direccion "Av. Amazonas N34-1234, Edificio Clinica Norte" (Quito) | IsActive True
+[20:56:55 INF] Sending GET request to http://localhost:5320/api/customers/3
+        Cliente 3: CLI-0003 | EPS-total Salud S.A. | LocationId 3 | direccion "Av. 9 de Octubre y Los Rios, Torre Norte" (Guayaquil) | IsActive True
+
+=====================================================================
+ RESULTADO: 2 clientes creados con la libreria REST
+   Cliente 2 (CLI-0002) -> LocationId 1
+   Cliente 3 (CLI-0003) -> LocationId 3
+=====================================================================
