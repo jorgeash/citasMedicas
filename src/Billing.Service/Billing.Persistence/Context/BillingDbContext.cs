@@ -9,6 +9,8 @@ public class BillingDbContext : DbContext
 
     public DbSet<Servicio> Servicios => Set<Servicio>();
     public DbSet<Tarifa> Tarifas => Set<Tarifa>();
+    public DbSet<Factura> Facturas => Set<Factura>();
+    public DbSet<FacturaDetalle> FacturaDetalles => Set<FacturaDetalle>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

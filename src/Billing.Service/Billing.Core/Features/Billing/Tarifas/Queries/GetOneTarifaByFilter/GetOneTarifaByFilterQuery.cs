@@ -26,7 +26,12 @@ public class GetOneTarifaByFilterQueryHandler
         CancellationToken cancellationToken)
     {
         var filter = Filter.FromStringExpression<Tarifa>(request.Filter);
-        var tarifa = await _repository.GetOneByAsync(filter, cancellationToken: cancellationToken);
+        var tarifa = await _repository.GetOneByAsync(
+            filter,
+            true,
+            false,
+            cancellationToken,
+            t => t.Servicio!);
 
         if (tarifa is null)
             return null;

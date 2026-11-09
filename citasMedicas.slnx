@@ -11,7 +11,13 @@
   <Folder Name="/Billing.Service/Billing.Persistence/">
     <Project Path="src/Billing.Service/Billing.Persistence/Billing.Persistence.csproj" Id="d4e5f6a7-b8c9-0123-defa-234567890123" />
   </Folder>
+  <Folder Name="/Billing.Service/Billing.Infrastructure/">
+    <Project Path="src/Billing.Service/Billing.Infrastructure/Billing.Infrastructure.csproj" Id="f6a7b8c9-d0e1-4345-96a7-b8c9d0e1f234" />
+  </Folder>
   <Folder Name="/Billing.Service/Billing.Api/">
     <Project Path="src/Billing.Service/Billing.Api/Billing.Api.csproj" Id="e5f6a7b8-c9d0-1234-efab-345678901234" />
+  </Folder>
+  <Folder Name="/Billing.Tests/">
+    <Project Path="src/Billing.Service/Billing.Tests/Billing.Tests.csproj" Id="a7b8c9d0-e1f2-4345-86a7-b8c9d0e1f235" />
   </Folder>
 </Solution>

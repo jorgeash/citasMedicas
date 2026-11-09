@@ -26,8 +26,11 @@ public class GetTarifasQueryEventHandler : IRequestHandler<GetTarifasQuery, Http
             request.PageNumber,
             request.PageSize,
             !string.IsNullOrEmpty(request.Filter) ? Filter.FromStringExpression<Tarifa>(request.Filter) : null,
-            Filter.ParseOrderBy<Tarifa>(request.OrderBy),
-            cancellationToken: cancellationToken);
+            Filter.ParseOrderBy<Tarifa>(request.OrderBy ?? string.Empty),
+            true,
+            false,
+            cancellationToken,
+            t => t.Servicio!);
 
         return new HttpResponse<PagedDto<List<TarifaDto>>>(new PagedDto<List<TarifaDto>>()
         {

@@ -26,6 +26,7 @@ public class GetServiciosQueryEventHandler : IRequestHandler<GetServiciosQuery, 
             request.PageNumber,
             request.PageSize,
             !string.IsNullOrEmpty(request.Filter) ? Filter.FromStringExpression<Servicio>(request.Filter) : null,
+            Filter.ParseOrderBy<Servicio>(request.OrderBy ?? string.Empty),
             cancellationToken: cancellationToken);
 
         return new HttpResponse<PagedDto<List<ServicioDto>>>(new PagedDto<List<ServicioDto>>()

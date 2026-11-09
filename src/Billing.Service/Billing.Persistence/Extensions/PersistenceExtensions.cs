@@ -13,12 +13,13 @@ public static class PersistenceExtensions
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<BillingDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("ClinicaDB")));
+            options.UseSqlServer(configuration.GetConnectionString("BillingDB")));
 
         services.AddScoped<DbContext>(sp => sp.GetRequiredService<BillingDbContext>());
 
         services.AddScoped<IServicioRepository, ServicioRepository>();
         services.AddScoped<ITarifaRepository, TarifaRepository>();
+        services.AddScoped<IFacturaRepository, FacturaRepository>();
 
         return services;
     }
