@@ -36,11 +36,43 @@ public static class Extension
         }
         else
         {
+            // Scheduling exige JWT (FallbackPolicy), así que Billing se
+            // autentica como cuenta de servicio antes de cada llamada.
+            var cuenta = configuration.GetSection("Services:Scheduling:ServiceAccount")
+                .Get<ServiceAccountSettings>();
+
+            if (cuenta is null || string.IsNullOrWhiteSpace(cuenta.Username) || string.IsNullOrWhiteSpace(cuenta.Password))
+            {
+                throw new InvalidOperationException(
+                    "Falta Services:Scheduling:ServiceAccount (Username/Password) en appsettings.json. " +
+                    "Scheduling.Api exige JWT y Billing necesita una cuenta de servicio para llamarlo.");
+            }
+
+            var identityBaseUrl = configuration["Identity:BaseUrl"]
+                ?? throw new InvalidOperationException(
+                    "Falta Identity:BaseUrl en appsettings.json (lo usa Billing para obtener el token de servicio).");
+
+            // HttpClient propio para Identity: sin este handler, para no
+            // recursar (este handler llama a Identity, que a su vez no necesita token).
+            services.AddSingleton(cuenta);
+            services.AddHttpClient("identity", client =>
+            {
+                client.BaseAddress = new Uri(identityBaseUrl);
+                client.Timeout = TimeSpan.FromSeconds(10);
+            });
+
+            services.AddTransient<ServiceTokenHandler>(sp =>
+            {
+                var factory = sp.GetRequiredService<IHttpClientFactory>();
+                return new ServiceTokenHandler(cuenta, factory.CreateClient("identity"));
+            });
+
             services.AddHttpClient<ISchedulingClient, SchedulingClient>(client =>
             {
                 client.BaseAddress = new Uri(schedulingBaseUrl);
                 client.Timeout = TimeSpan.FromSeconds(10);
-            });
+            })
+            .AddHttpMessageHandler<ServiceTokenHandler>();
         }
 
         return services;

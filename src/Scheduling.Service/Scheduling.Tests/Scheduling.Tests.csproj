@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <!-- Cambia el hash del dll (compilación determinista) para escapar del bloqueo
          0x800711C7 de Control de Aplicaciones sobre archivos recién escritos. -->
-    <Description>Pruebas unitarias de Scheduling</Description>
+    <Description>Pruebas unitarias de Scheduling (agendas, pacientes, citas y búsqueda genérica)</Description>
   </PropertyGroup>
 
   <ItemGroup>

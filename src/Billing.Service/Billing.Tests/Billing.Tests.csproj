@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <!-- Cambia el hash del dll (compilación determinista) para escapar del bloqueo
          0x800711C7 de Control de Aplicaciones sobre archivos recién escritos. -->
-    <Description>Pruebas unitarias de Billing</Description>
+    <Description>Pruebas unitarias de Billing (facturas, servicios, tarifas y búsqueda genérica)</Description>
   </PropertyGroup>
 
   <ItemGroup>

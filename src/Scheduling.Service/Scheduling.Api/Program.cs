@@ -1,5 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
 using Scheduling.Core;
 using Scheduling.Core.Exceptions;
 using Scheduling.Persistence.Extensions;
@@ -32,6 +35,68 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
+
+// Autenticación JWT emitida por Identity.Api (:52096). La clave y el emisor
+// están replicados en los tres appsettings.json (demo sin secret store).
+var jwtSection = builder.Configuration.GetSection("Jwt");
+var jwtIssuer = jwtSection["Issuer"] ?? string.Empty;
+var jwtAudience = jwtSection["Audience"] ?? string.Empty;
+var jwtKey = jwtSection["SigningKey"]
+    ?? throw new InvalidOperationException("Falta Jwt:SigningKey en appsettings.json.");
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.MapInboundClaims = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwtIssuer,
+            ValidateAudience = true,
+            ValidAudience = jwtAudience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(1)
+        };
+
+        // El 401 por defecto sale vacío; se respeta el contrato { errorCode, errorMessage }.
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = async context =>
+            {
+                context.HandleResponse();
+
+                var expirado = context.ErrorDescription?.Contains("expired", StringComparison.OrdinalIgnoreCase) == true
+                    || context.Error == "token_expired";
+
+                var (code, message) = expirado
+                    ? (705, "El token ha expirado. Renove la sesión con el refresh token.")
+                    : (706, "Token inválido o ausente. Inicie sesión.");
+
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                await context.Response.WriteAsJsonAsync(new { errorCode = code, errorMessage = message });
+            },
+            OnForbidden = async context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                await context.Response.WriteAsJsonAsync(new
+                {
+                    errorCode = 707,
+                    errorMessage = "No tiene permisos para realizar esta operación."
+                });
+            }
+        };
+    });
+
+// Todo endpoint exige usuario autenticado salvo que diga [AllowAnonymous].
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
 
 var app = builder.Build();
 
@@ -71,6 +136,7 @@ else
 }
 
 app.UseCors(FrontendCors);
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

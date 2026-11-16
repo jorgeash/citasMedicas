@@ -35,4 +35,19 @@
   <Folder Name="/Scheduling.Tests/">
     <Project Path="src/Scheduling.Service/Scheduling.Tests/Scheduling.Tests.csproj" Id="f2a3b4c5-d6e7-4345-96a7-b8c9d0e1f240" />
   </Folder>
+  <Folder Name="/Identity.Service/Identity.Domain/">
+    <Project Path="src/Identity.Service/Identity.Domain/Identity.Domain.csproj" Id="0a1b2c3d-e4f5-4678-9abc-def012345601" />
+  </Folder>
+  <Folder Name="/Identity.Service/Identity.Core/">
+    <Project Path="src/Identity.Service/Identity.Core/Identity.Core.csproj" Id="0a1b2c3d-e4f5-4678-9abc-def012345602" />
+  </Folder>
+  <Folder Name="/Identity.Service/Identity.Persistence/">
+    <Project Path="src/Identity.Service/Identity.Persistence/Identity.Persistence.csproj" Id="0a1b2c3d-e4f5-4678-9abc-def012345603" />
+  </Folder>
+  <Folder Name="/Identity.Service/Identity.Api/">
+    <Project Path="src/Identity.Service/Identity.Api/Identity.Api.csproj" Id="0a1b2c3d-e4f5-4678-9abc-def012345604" />
+  </Folder>
+  <Folder Name="/Identity.Tests/">
+    <Project Path="src/Identity.Service/Identity.Tests/Identity.Tests.csproj" Id="0a1b2c3d-e4f5-4678-9abc-def012345605" />
+  </Folder>
 </Solution>

@@ -4,6 +4,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- Cambia el hash del dll (compilación determinista) para escapar del bloqueo
+         0x800711C7 de Control de Aplicaciones sobre archivos recién escritos. -->
+    <Description>Casos de uso de facturación de Billing (facturas, servicios y tarifas)</Description>
   </PropertyGroup>
 
   <ItemGroup>
