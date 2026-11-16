@@ -20,4 +20,19 @@
   <Folder Name="/Billing.Tests/">
     <Project Path="src/Billing.Service/Billing.Tests/Billing.Tests.csproj" Id="a7b8c9d0-e1f2-4345-86a7-b8c9d0e1f235" />
   </Folder>
+  <Folder Name="/Scheduling.Service/Scheduling.Domain/">
+    <Project Path="src/Scheduling.Service/Scheduling.Domain/Scheduling.Domain.csproj" Id="b8c9d0e1-f2a3-4345-96a7-b8c9d0e1f236" />
+  </Folder>
+  <Folder Name="/Scheduling.Service/Scheduling.Core/">
+    <Project Path="src/Scheduling.Service/Scheduling.Core/Scheduling.Core.csproj" Id="c9d0e1f2-a3b4-4345-a6a7-b8c9d0e1f237" />
+  </Folder>
+  <Folder Name="/Scheduling.Service/Scheduling.Persistence/">
+    <Project Path="src/Scheduling.Service/Scheduling.Persistence/Scheduling.Persistence.csproj" Id="d0e1f2a3-b4c5-4345-b6a7-b8c9d0e1f238" />
+  </Folder>
+  <Folder Name="/Scheduling.Service/Scheduling.Api/">
+    <Project Path="src/Scheduling.Service/Scheduling.Api/Scheduling.Api.csproj" Id="e1f2a3b4-c5d6-4345-86a7-b8c9d0e1f239" />
+  </Folder>
+  <Folder Name="/Scheduling.Tests/">
+    <Project Path="src/Scheduling.Service/Scheduling.Tests/Scheduling.Tests.csproj" Id="f2a3b4c5-d6e7-4345-96a7-b8c9d0e1f240" />
+  </Folder>
 </Solution>

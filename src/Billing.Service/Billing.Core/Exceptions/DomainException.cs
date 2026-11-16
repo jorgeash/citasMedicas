@@ -13,7 +13,9 @@ public enum Errores
     TARIFA_NO_VALIDA = 805,
     FACTURA_NO_ENCONTRADA = 806,
     FACTURA_YA_PAGADA = 807,
-    FACTURA_YA_ANULADA = 808
+    FACTURA_YA_ANULADA = 808,
+    CITA_NO_ENCONTRADA = 809,
+    CITA_PACIENTE_INCONSISTENTE = 810
 }
 
 /// <summary>Error de negocio con código propio; el middleware de la API lo

@@ -33,7 +33,7 @@ public class GetTarifasByServicioQueryHandler : IRequestHandler<GetTarifasByServ
         if (servicio is null)
             return null;
 
-        var tarifas = await _tarifaRepository.GetAllAsync(t => t.Servicio);
+        var tarifas = await _tarifaRepository.GetAllAsync(t => t.Servicio!);
 
         return tarifas
             .Where(t => t.ServicioID == request.ServicioID)

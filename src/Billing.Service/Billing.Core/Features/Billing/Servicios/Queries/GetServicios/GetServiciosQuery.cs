@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Billing.Core.DTOs;
 using Billing.Core.DTOs.Billing;
 using Billing.Core.Interfaces.Repositories;
@@ -22,10 +23,21 @@ public class GetServiciosQueryEventHandler : IRequestHandler<GetServiciosQuery, 
 
     public async Task<HttpResponse<PagedDto<List<ServicioDto>>>> Handle(GetServiciosQuery request, CancellationToken cancellationToken)
     {
+        Expression<Func<Servicio, bool>>? filtro =
+            !string.IsNullOrEmpty(request.Filter)
+                ? Filter.FromStringExpression<Servicio>(request.Filter)
+                : null;
+
+        if (!string.IsNullOrWhiteSpace(request.Buscar))
+        {
+            var textoLibre = Filter.FreeText<Servicio>(request.Buscar, "Codigo", "Nombre", "Descripcion");
+            filtro = filtro is null ? textoLibre : Filter.AndAlso(filtro, textoLibre);
+        }
+
         var result = await _servicioRepository.GetPagedAsync(
             request.PageNumber,
             request.PageSize,
-            !string.IsNullOrEmpty(request.Filter) ? Filter.FromStringExpression<Servicio>(request.Filter) : null,
+            filtro,
             Filter.ParseOrderBy<Servicio>(request.OrderBy ?? string.Empty),
             cancellationToken: cancellationToken);
 

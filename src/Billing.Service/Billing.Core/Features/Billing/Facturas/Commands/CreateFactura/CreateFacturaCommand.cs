@@ -58,6 +58,21 @@ public class CreateFacturaCommandHandler : IRequestHandler<CreateFacturaCommand,
         if (paciente is null)
             throw new DomainException(Errores.PACIENTE_NO_ENCONTRADO, $"No existe el paciente {request.PacienteID}.");
 
+        // La cita es opcional, pero si viene hay que validarla en Scheduling:
+        // que exista y que pertenezca al mismo paciente de la factura.
+        if (request.CitaID.HasValue)
+        {
+            var cita = await _schedulingClient.GetCitaAsync(request.CitaID.Value, cancellationToken);
+
+            if (cita is null)
+                throw new DomainException(Errores.CITA_NO_ENCONTRADA, $"No existe la cita {request.CitaID.Value}.");
+
+            if (cita.PacienteID != request.PacienteID)
+                throw new DomainException(
+                    Errores.CITA_PACIENTE_INCONSISTENTE,
+                    $"La cita {request.CitaID.Value} pertenece al paciente {cita.PacienteID}, no al paciente {request.PacienteID}.");
+        }
+
         var factura = new Factura
         {
             Numero = $"TMP-{Guid.NewGuid():N}".Substring(0, 20),

@@ -13,4 +13,8 @@ public class RequestParameters
     }
     public string? Filter { get; set; }
     public string? OrderBy { get; set; }
+
+    /// <summary>Texto libre de búsqueda genérica: se compara contra varios campos
+    /// del listado (a diferencia de <see cref="Filter"/>, que es una expresión LINQ).</summary>
+    public string? Buscar { get; set; }
 }

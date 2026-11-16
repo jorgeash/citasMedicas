@@ -55,6 +55,9 @@ public class GetFacturasQueryHandler : IRequestHandler<GetFacturasQuery, PagedDt
             filter = And(filter, f => f.FechaEmision < hasta);
         }
 
+        if (!string.IsNullOrWhiteSpace(request.Buscar))
+            filter = And(filter, Filter.FreeText<Factura>(request.Buscar, "Numero", "PacienteNombre", "Observaciones"));
+
         var orderBy = !string.IsNullOrWhiteSpace(request.OrderBy)
             ? Filter.ParseOrderBy<Factura>(request.OrderBy)
             : (Func<IQueryable<Factura>, IOrderedQueryable<Factura>>)(q => q.OrderByDescending(f => f.FechaEmision));

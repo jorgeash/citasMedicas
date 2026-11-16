@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Billing.Core.DTOs;
 using Billing.Core.DTOs.Billing;
 using Billing.Core.Interfaces.Repositories;
@@ -22,10 +23,21 @@ public class GetTarifasQueryEventHandler : IRequestHandler<GetTarifasQuery, Http
 
     public async Task<HttpResponse<PagedDto<List<TarifaDto>>>> Handle(GetTarifasQuery request, CancellationToken cancellationToken)
     {
+        Expression<Func<Tarifa, bool>>? filtro =
+            !string.IsNullOrEmpty(request.Filter)
+                ? Filter.FromStringExpression<Tarifa>(request.Filter)
+                : null;
+
+        if (!string.IsNullOrWhiteSpace(request.Buscar))
+        {
+            var textoLibre = Filter.FreeText<Tarifa>(request.Buscar, "NombreTarifa", "Servicio.Nombre");
+            filtro = filtro is null ? textoLibre : Filter.AndAlso(filtro, textoLibre);
+        }
+
         var result = await _tarifaRepository.GetPagedAsync(
             request.PageNumber,
             request.PageSize,
-            !string.IsNullOrEmpty(request.Filter) ? Filter.FromStringExpression<Tarifa>(request.Filter) : null,
+            filtro,
             Filter.ParseOrderBy<Tarifa>(request.OrderBy ?? string.Empty),
             true,
             false,

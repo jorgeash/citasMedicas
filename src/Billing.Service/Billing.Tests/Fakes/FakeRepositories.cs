@@ -18,3 +18,11 @@ public class FakeTarifaRepository : InMemoryRepository<Tarifa>, ITarifaRepositor
     {
     }
 }
+
+public class FakeServicioRepository : InMemoryRepository<Servicio>, IServicioRepository
+{
+    public FakeServicioRepository()
+        : base(s => s.ServicioID, (s, id) => s.ServicioID = id)
+    {
+    }
+}

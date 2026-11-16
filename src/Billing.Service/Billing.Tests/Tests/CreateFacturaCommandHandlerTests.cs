@@ -12,19 +12,25 @@ public class CreateFacturaCommandHandlerTests
     private sealed class SchedulingStub : ISchedulingClient
     {
         private readonly PacienteExternoDto? _paciente;
+        private readonly CitaExternaDto? _cita;
 
-        public SchedulingStub(PacienteExternoDto? paciente) => _paciente = paciente;
+        public SchedulingStub(PacienteExternoDto? paciente, CitaExternaDto? cita = null)
+        {
+            _paciente = paciente;
+            _cita = cita;
+        }
 
         public Task<PacienteExternoDto?> GetPacienteAsync(int pacienteId, CancellationToken cancellationToken = default)
             => Task.FromResult(_paciente);
 
         public Task<CitaExternaDto?> GetCitaAsync(int citaId, CancellationToken cancellationToken = default)
-            => Task.FromResult<CitaExternaDto?>(null);
+            => Task.FromResult(_cita);
     }
 
     private static (CreateFacturaCommandHandler handler, InMemoryRepository<Factura> facturas) BuildHandler(
         Tarifa tarifa,
-        PacienteExternoDto? paciente = null)
+        PacienteExternoDto? paciente = null,
+        CitaExternaDto? cita = null)
     {
         var facturas = new FakeFacturaRepository();
         var tarifas = new FakeTarifaRepository();
@@ -33,7 +39,7 @@ public class CreateFacturaCommandHandlerTests
         var handler = new CreateFacturaCommandHandler(
             facturas,
             tarifas,
-            new SchedulingStub(paciente ?? new PacienteExternoDto { PacienteID = 15, Nombre = "Juan Pérez" }));
+            new SchedulingStub(paciente ?? new PacienteExternoDto { PacienteID = 15, Nombre = "Juan Pérez" }, cita));
 
         return (handler, facturas);
     }
@@ -126,5 +132,58 @@ public class CreateFacturaCommandHandlerTests
         }, CancellationToken.None));
 
         Assert.Equal(Errores.FACTURA_SIN_DETALLE, ex.Codigo);
+    }
+
+    [Fact]
+    public async Task Handle_CuandoLaCitaEsValida_GuardaElIdDeLaCita()
+    {
+        var (handler, facturas) = BuildHandler(
+            TarifaValida(),
+            cita: new CitaExternaDto { CitaID = 7, PacienteID = 15, Fecha = DateTime.UtcNow });
+
+        var result = await handler.Handle(new CreateFacturaCommand
+        {
+            PacienteID = 15,
+            CitaID = 7,
+            Detalle = new List<CreateFacturaItem> { new() { TarifaID = 1, Cantidad = 1 } }
+        }, CancellationToken.None);
+
+        Assert.Equal(7, result.CitaID);
+
+        var stored = await facturas.GetAllAsync();
+        Assert.Equal(7, Assert.Single(stored).CitaID);
+    }
+
+    [Fact]
+    public async Task Handle_CuandoLaCitaNoExiste_LanzaDomainException()
+    {
+        // El stub sin cita devuelve null -> "no encontrada".
+        var (handler, _) = BuildHandler(TarifaValida());
+
+        var ex = await Assert.ThrowsAsync<DomainException>(() => handler.Handle(new CreateFacturaCommand
+        {
+            PacienteID = 15,
+            CitaID = 999,
+            Detalle = new List<CreateFacturaItem> { new() { TarifaID = 1, Cantidad = 1 } }
+        }, CancellationToken.None));
+
+        Assert.Equal(Errores.CITA_NO_ENCONTRADA, ex.Codigo);
+    }
+
+    [Fact]
+    public async Task Handle_CuandoLaCitaEsDeOtroPaciente_LanzaDomainException()
+    {
+        var (handler, _) = BuildHandler(
+            TarifaValida(),
+            cita: new CitaExternaDto { CitaID = 1, PacienteID = 2, Fecha = DateTime.UtcNow });
+
+        var ex = await Assert.ThrowsAsync<DomainException>(() => handler.Handle(new CreateFacturaCommand
+        {
+            PacienteID = 15,
+            CitaID = 1,
+            Detalle = new List<CreateFacturaItem> { new() { TarifaID = 1, Cantidad = 1 } }
+        }, CancellationToken.None));
+
+        Assert.Equal(Errores.CITA_PACIENTE_INCONSISTENTE, ex.Codigo);
     }
 }
