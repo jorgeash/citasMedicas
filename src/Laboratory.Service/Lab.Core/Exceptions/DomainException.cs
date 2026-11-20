@@ -1,0 +1,33 @@
+namespace Lab.Core.Exceptions;
+
+public enum Errores
+{
+    DATOS_INVALIDOS = 1101,
+    ESTUDIO_CODIGO_DUPLICADO = 1102,
+    ESTUDIO_NO_ENCONTRADO = 1103,
+    SOLICITUD_SIN_DETALLE = 1104,
+    ATENCION_NO_ENCONTRADA = 1105,
+    ATENCION_PACIENTE_INCONSISTENTE = 1106,
+    MEDICO_NO_ENCONTRADO = 1107,
+    MEDICO_INACTIVO = 1108,
+    ESTUDIO_NO_ACTIVO = 1109,
+    DETALLE_DUPLICADO = 1110,
+    SOLICITUD_NO_ENCONTRADA = 1111,
+    SOLICITUD_CANCELADA = 1112,
+    RESULTADO_DUPLICADO = 1113,
+    ESTADO_RESULTADO_INVALIDO = 1114,
+    DETALLE_NO_ENCONTRADO = 1115,
+    SOLICITUD_ESTADO_INVALIDO = 1116,
+    MOTIVO_OBLIGATORIO = 1117,
+    SOLICITUD_CON_RESULTADOS = 1118
+}
+
+public class DomainException : Exception
+{
+    public Errores Codigo { get; }
+
+    public DomainException(Errores codigo, string message) : base(message)
+    {
+        Codigo = codigo;
+    }
+}

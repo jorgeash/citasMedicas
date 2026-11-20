@@ -14,6 +14,7 @@
   <Folder Name="/Billing.Service/Billing.Infrastructure/">
     <Project Path="src/Billing.Service/Billing.Infrastructure/Billing.Infrastructure.csproj" Id="f6a7b8c9-d0e1-4345-96a7-b8c9d0e1f234" />
   </Folder>
+  <Folder Name="/Billing.Service/" />
   <Folder Name="/Billing.Service/Billing.Api/">
     <Project Path="src/Billing.Service/Billing.Api/Billing.Api.csproj" Id="e5f6a7b8-c9d0-1234-efab-345678901234" />
   </Folder>
@@ -29,6 +30,22 @@
   <Folder Name="/Scheduling.Service/Scheduling.Persistence/">
     <Project Path="src/Scheduling.Service/Scheduling.Persistence/Scheduling.Persistence.csproj" Id="d0e1f2a3-b4c5-4345-b6a7-b8c9d0e1f238" />
   </Folder>
+  <Folder Name="/Laboratory.Service/">
+    <Project Path="src/Laboratory.Service/Lab.Api/Lab.Api.csproj" />
+    <Project Path="src/Laboratory.Service/Lab.Core/Lab.Core.csproj" />
+    <Project Path="src/Laboratory.Service/Lab.Domain/Lab.Domain.csproj" />
+    <Project Path="src/Laboratory.Service/Lab.Infrastructure/Lab.Infrastructure.csproj" />
+    <Project Path="src/Laboratory.Service/Lab.Persistence/Lab.Persistence.csproj" />
+    <Project Path="src/Laboratory.Service/Lab.Tests/Lab.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Notification.Service/">
+    <Project Path="src/Notification.Service/Notification.Api/Notification.Api.csproj" />
+    <Project Path="src/Notification.Service/Notification.Core/Notification.Core.csproj" />
+    <Project Path="src/Notification.Service/Notification.Domain/Notification.Domain.csproj" />
+    <Project Path="src/Notification.Service/Notification.Persistence/Notification.Persistence.csproj" />
+    <Project Path="src/Notification.Service/Notification.Tests/Notification.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Scheduling.Service/" />
   <Folder Name="/Scheduling.Service/Scheduling.Api/">
     <Project Path="src/Scheduling.Service/Scheduling.Api/Scheduling.Api.csproj" Id="e1f2a3b4-c5d6-4345-86a7-b8c9d0e1f239" />
   </Folder>
@@ -44,6 +61,15 @@
   <Folder Name="/Identity.Service/Identity.Persistence/">
     <Project Path="src/Identity.Service/Identity.Persistence/Identity.Persistence.csproj" Id="0a1b2c3d-e4f5-4678-9abc-def012345603" />
   </Folder>
+  <Folder Name="/ClinicalRecords.Service/">
+    <Project Path="src/ClinicalRecords.Service/Clinical.Api/Clinical.Api.csproj" />
+    <Project Path="src/ClinicalRecords.Service/Clinical.Core/Clinical.Core.csproj" />
+    <Project Path="src/ClinicalRecords.Service/Clinical.Domain/Clinical.Domain.csproj" />
+    <Project Path="src/ClinicalRecords.Service/Clinical.Infrastructure/Clinical.Infrastructure.csproj" />
+    <Project Path="src/ClinicalRecords.Service/Clinical.Persistence/Clinical.Persistence.csproj" />
+    <Project Path="src/ClinicalRecords.Service/Clinical.Tests/Clinical.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Identity.Service/" />
   <Folder Name="/Identity.Service/Identity.Api/">
     <Project Path="src/Identity.Service/Identity.Api/Identity.Api.csproj" Id="0a1b2c3d-e4f5-4678-9abc-def012345604" />
   </Folder>

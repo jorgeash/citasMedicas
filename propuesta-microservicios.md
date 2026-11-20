@@ -5,16 +5,16 @@
 
 ---
 
-## 1. Distribución de 60 tablas en 5 microservicios
+## 1. Distribución de 60 tablas en 6 microservicios
 
-| # | Microservicio | Tablas | Pregunta que responde |
-|---|---|---|---|
-| 1 | **Identity.Service** | 13 | ¿QUIÉN es esta persona y QUÉ puede hacer? |
-| 2 | **Scheduling.Service** | 9 | ¿CUÁNDO y DÓNDE ocurre la atención? |
-| 3 | **ClinicalRecords.Service** | 25 | ¿QUÉ pasó médicamente en la atención? |
-| 4 | **Laboratory.Service** | 4 | ¿QUÉ estudios se pidieron y QUÉ mostraron? |
-| 5 | **Billing.Service** | 8 | ¿CUÁNTO se cobra y se PAGÓ? |
-| 6 | **Notification.Service** | 1 | ¿Qué notificaciones se generan? |
+| # | Microservicio | Tablas | Pregunta que responde | Estado |
+|---|---|---|---|---|
+| 1 | **Identity.Service** | 13 | ¿QUIÉN es esta persona y QUÉ puede hacer? | Ya |
+| 2 | **Scheduling.Service** | 9 | ¿CUÁNDO y DÓNDE ocurre la atención? | Ya |
+| 3 | **ClinicalRecords.Service** | 25 | ¿QUÉ pasó médicamente en la atención? | Ya |
+| 4 | **Laboratory.Service** | 4 | ¿QUÉ estudios se pidieron y QUÉ mostraron? | Ya |
+| 5 | **Billing.Service** | 8 | ¿CUÁNTO se cobra y se PAGÓ? | Ya |
+| 6 | **Notification.Service** | 1 | ¿Qué notificaciones se generan? | Ya |
 
 ---
 
@@ -118,47 +118,61 @@
 ```
 citasMedicas/
 ├── src/
-│   ├── Shared.Kernel/
-│   │   ├── Shared.Kernel.csproj
-│   │   ├── Entities/
-│   │   │   └── BaseEntity.cs
-│   │   ├── Interfaces/
-│   │   │   └── IUnitOfWork.cs
-│   │   └── Extensions/
-│   │       └── AuthExtensions.cs
+│   ├── Shared.Kernel/                     (IRepository<T>, Repository<T>, Filter, PagedResult)
 │   │
-│   ├── Identity.Service/
+│   ├── Identity.Service/                  (13 tablas)
 │   │   ├── Identity.Domain/
-│   │   ├── Identity.Application/
+│   │   ├── Identity.Core/
 │   │   ├── Identity.Persistence/
-│   │   └── Identity.Api/
+│   │   ├── Identity.Api/                  :52096
+│   │   └── Identity.Tests/
 │   │
-│   ├── Scheduling.Service/
+│   ├── Scheduling.Service/                (9 tablas)
 │   │   ├── Scheduling.Domain/
-│   │   ├── Scheduling.Application/
+│   │   ├── Scheduling.Core/
 │   │   ├── Scheduling.Persistence/
-│   │   └── Scheduling.Api/
+│   │   ├── Scheduling.Api/                :52094 / :52095
+│   │   └── Scheduling.Tests/
 │   │
-│   ├── ClinicalRecords.Service/
+│   ├── ClinicalRecords.Service/           (25 tablas)
 │   │   ├── Clinical.Domain/
-│   │   ├── Clinical.Application/
+│   │   ├── Clinical.Core/
 │   │   ├── Clinical.Persistence/
-│   │   └── Clinical.Api/
+│   │   ├── Clinical.Infrastructure/
+│   │   ├── Clinical.Api/                  :52097
+│   │   ├── Clinical.Tests/
+│   │   ├── README.md
+│   │   └── seed-clinical.sql
 │   │
-│   ├── Laboratory.Service/
+│   ├── Laboratory.Service/                (4 tablas)
 │   │   ├── Lab.Domain/
-│   │   ├── Lab.Application/
+│   │   ├── Lab.Core/
 │   │   ├── Lab.Persistence/
-│   │   └── Lab.Api/
+│   │   ├── Lab.Infrastructure/
+│   │   ├── Lab.Api/                       :52098
+│   │   ├── Lab.Tests/
+│   │   ├── README.md
+│   │   └── seed-laboratory.sql
 │   │
-│   └── Billing.Service/
+│   ├── Notification.Service/              (1 tabla, sin Infrastructure)
+│   │   ├── Notification.Domain/
+│   │   ├── Notification.Core/
+│   │   ├── Notification.Persistence/
+│   │   ├── Notification.Api/              :52099 / :52100
+│   │   ├── Notification.Tests/
+│   │   ├── README.md
+│   │   └── seed-notifications.sql
+│   │
+│   └── Billing.Service/                   (8 tablas)
 │       ├── Billing.Domain/
-│       ├── Billing.Application/
+│       ├── Billing.Core/
 │       ├── Billing.Persistence/
-│       └── Billing.Api/
+│       ├── Billing.Infrastructure/
+│       ├── Billing.Api/                   :52092 / :52093
+│       └── Billing.Tests/
 │
 ├── citasMedicas.slnx
-└── docker-compose.yml
+└── propuesta-microservicios.md
 ```
 
 ### Estructura hexagonal interna de cada servicio
@@ -170,40 +184,36 @@ Servicio.Domain/
 ├── ValueObjects/      Objetos de valor
 └── Interfaces/        Puertos (repositorios, servicios externos)
 
-Servicio.Application/
-├── Features/          Organización por dominio (MediatR)
-│   ├── Entidad1/
-│   │   ├── Commands/
-│   │   │   ├── CreateEntidad1/
-│   │   │   │   ├── CreateEntidad1Command.cs
-│   │   │   │   ├── CreateEntidad1CommandHandler.cs
-│   │   │   │   └── CreateEntidad1CommandValidator.cs
-│   │   │   ├── UpdateEntidad1/
-│   │   │   └── DeleteEntidad1/
-│   │   └── Queries/
-│   │       ├── GetEntidad1s/
-│   │       │   ├── GetEntidad1sQuery.cs
-│   │       │   └── GetEntidad1sQueryHandler.cs
-│   │       └── GetEntidad1ById/
-│   ├── Entidad2/
-│   └── ...
-├── DTOs/
-│   ├── Requests/
-│   └── Responses/
-└── Interfaces/        Contratos de aplicación
+Servicio.Core/
+├── Features/          Vertical slice: Command/Query + Handler en el MISMO archivo
+│   └── AgrupadoPorDominio/
+│       ├── Commands/<Accion>/<Accion>Command.cs
+│       └── Queries/<Accion>/<Accion>Query.cs
+├── DTOs/              Request/Response + DTOs externos de otros servicios
+├── Exceptions/        DomainException + enum Errores (rango propio por micro)
+├── Interfaces/        Puertos de repositorio y de servicios externos
+├── Services/          Contratos de los clientes HTTP (I...Client)
+└── DependencyInjection.cs
 
 Servicio.Persistence/
 ├── Context/           DbContext
-├── Configurations/    Fluent API
-├── Repositories/      Implementación de puertos
-├── Migrations/        Migraciones EF Core
+├── Configurations/    Fluent API (ToTable exacto, longitudes, precisión)
+├── Repositories/      Implementación sobre Shared.Kernel.Repository<T>
+└── Extensions/        DI registration
+
+Servicio.Infrastructure/   (solo cuando hay comunicación entre servicios)
+├── Services/          Clientes HTTP typed + stubs + ServiceTokenHandler
 └── Extensions/        DI registration
 
 Servicio.Api/
-├── Controllers/       Endpoints HTTP (usan MediatR)
-├── Middleware/         Auditoría, errores
-├── Program.cs
-└── appsettings.json
+├── Controllers/       Endpoints HTTP (envían MediatR)
+├── Program.cs         JWT, CORS, OpenAPI, middleware de errores
+├── appsettings.json
+└── Properties/launchSettings.json
+
+Servicio.Tests/
+├── Fakes/             InMemoryRepository<T>, repositorios falsos y stubs
+└── Tests/             Pruebas xUnit de reglas de negocio (sin base de datos)
 ```
 
 ---
@@ -234,7 +244,17 @@ Por ahora se ha considerado esta opcion
 | Laboratory | Identity | Médico que solicitó |
 | Billing | Scheduling | Datos del paciente y cita |
 | Billing | ClinicalRecords | Procedimientos realizados |
-| Notification | Todos | Recibe eventos de todos los servicios |
+| Todos los servicios | Notification | Registro idempotente de avisos (`POST /api/notificaciones`) |
+
+Los clientes HTTP de ClinicalRecords y Laboratory se registran con `IHttpClientFactory`.
+Cuando `Services:<Destino>:BaseUrl` está vacío (valor por defecto en `appsettings.json`)
+se activa un **stub** y el microservicio arranca y se prueba sin red. Con una URL real
+se usa el cliente typed y `ServiceTokenHandler` obtiene un JWT de `Identity.Api`
+mediante una cuenta de servicio configurada, con renovación y reintento ante `401`.
+
+Notification es el único caso entrante: los productores hacen un `POST` HTTP con un
+`EventoID` y la API devuelve la notificación ya existente si el evento se repite.
+No hay bus de mensajes ni clientes salientes en Notification.
 
 ### Diagrama de dependencias
 
@@ -261,10 +281,18 @@ Flujo unidireccional. Sin dependencias circulares.
 | Decisión | Valor |
 |---|---|
 | Motor | SQL Server (LocalDB) |
-| Patrón | Shared database (una sola BD para todos los servicios) | // A Consultar
+| Patrón | Shared database por convención: cada servicio mapea solo sus tablas |
 | Nombre | `ClinicaDB` |
 
-Cada microservicio usa sus tablas por convención (schema), no por restricción técnica. El patrón microservicios se demuestra a nivel de código y arquitectura (proyectos separados, hexagonal, MediatR, Controllers independientes).
+Identity, Scheduling, ClinicalRecords, Laboratory y Notification reutilizan las tablas
+existentes de `ClinicaDB` mediante Fluent API y **no tienen migraciones**; sus scripts
+`seed-*.sql` solo cargan datos de prueba. Billing es la excepción ya implementada: tiene
+su propio `BillingDB` con migraciones EF Core.
+En todos los casos las claves foráneas entre servicios se representan como IDs (`long`/`int`),
+nunca como restricciones FK entre bases distintas.
+
+El patrón microservicios se demuestra a nivel de código y arquitectura (proyectos separados,
+hexagonal, MediatR, Controllers independientes, clientes HTTP tipados).
 
 ---
 
@@ -276,11 +304,15 @@ Cada microservicio usa sus tablas por convención (schema), no por restricción 
 | Microsoft.EntityFrameworkCore.SqlServer 9.0.0 | Provider SQL Server |
 | Microsoft.AspNetCore.Authentication.JwtBearer | Validación JWT |
 | System.IdentityModel.Tokens.Jwt | Generación de tokens |
-| BCrypt.Net-Next | Hashing de passwords |
-| FluentValidation | Validación de DTOs |
-| AutoMapper | Mapeo Entity ↔ DTO |
-| MediatR | Patrón Mediator para CQRS y desacoplamiento |
-| Microsoft.Extensions.Http.Polly | Retry + Circuit Breaker para llamadas entre servicios |
+| BCrypt.Net-Next | Hashing de passwords (Identity) |
+| MediatR 12.5.0 | Patrón Mediator para CQRS y desacoplamiento |
+| System.Linq.Dynamic.Core 1.6.0 | `filter` dinámico y `orderBy` en listados paginados |
+| Serilog.AspNetCore 9.0.0 | Logging en las APIs |
+| Microsoft.Extensions.Http 9.0.0 | Clientes HTTP tipados entre servicios |
+| NugetPackageRest 2.2.0 | Capa REST genérica usada por Billing |
+
+La validación se hace en los handlers (DomainException con código propio) y el mapeo
+Entity ↔ DTO con mapper estático por servicio; no se usan FluentValidation ni AutoMapper.
 
 ---
 
@@ -300,14 +332,161 @@ Cada microservicio usa sus tablas por convención (schema), no por restricción 
 
 ## 9. Orden de implementación
 
-| Paso | Servicio | Dependencias |
-|---|---|---|
-| 1 | Shared.Kernel | Ninguna |
-| 2 | Identity.Service | Shared.Kernel |
-| 3 | Scheduling.Service | Identity |
-| 4 | ClinicalRecords.Service | Identity, Scheduling |
-| 5 | Laboratory.Service | ClinicalRecords, Identity |
-| 6 | Billing.Service | Scheduling, ClinicalRecords |
+| Paso | Servicio | Dependencias | Estado |
+|---|---|---|---|
+| 1 | Shared.Kernel | Ninguna | Ya |
+| 2 | Identity.Service | Shared.Kernel | Ya |
+| 3 | Scheduling.Service | Identity | Ya |
+| 4 | ClinicalRecords.Service | Identity, Scheduling | Ya |
+| 5 | Laboratory.Service | ClinicalRecords, Identity | Ya |
+| 6 | Billing.Service | Scheduling, ClinicalRecords | Ya |
+| 7 | Notification.Service | Todos (eventos entrantes) | Ya |
+
+---
+
+## 10. Implementación de los microservicios 3, 4 y 6
+
+### 10.1 ClinicalRecords.Service — microservicio 3
+
+**Responsabilidad:** responder `¿QUÉ pasó médicamente en la atención?`. Dueño de las 25 tablas
+clínicas (`Expedientes_Clínicos`, `Atenciones`, `Signos_Vitales`, `Notas_Médicas`,
+`Diagnósticos`, `Síntomas`, `Prescripciones`, `Tratamientos`, `Indicaciones_Médicas`,
+`Referencias_Médicas`, `Procedimientos`, `Archivos_Clínicos`, `Hospitalizaciones`, catálogos, etc.).
+
+**Proyectos:** `Clinical.Domain`, `Clinical.Core`, `Clinical.Persistence`,
+`Clinical.Infrastructure`, `Clinical.Api`, `Clinical.Tests`. Puerto HTTP `52097`.
+
+**Reglas de negocio implementadas y probadas:**
+- Un paciente tiene como máximo un expediente activo; `CreateAtencion` lo crea automáticamente
+  con número `EXP-{año}-{id:D6}` si no existe.
+- La atención nace de una cita: se valida existencia, pertenencia al paciente, médico activo
+  y que la cita no tenga ya una atención.
+- Signos vitales calculan IMC y lo redondean a 2 decimales.
+- Un solo diagnóstico principal por atención y sin diagnósticos repetidos.
+- Prescripción y tratamiento requieren detalle y medicamento activo.
+- Procedimiento requiere catálogo activo y cantidad válida.
+- Hospitalización exige cama activa en estado `LIBRE`, prohíbe dos ingresos activos del mismo
+  expediente, valida fecha de egreso y libera la cama al egresar.
+- Archivos clínicos exigen expediente existente, nombre y ruta no vacíos.
+- Listados paginados con `pageNumber`, `pageSize`, `filter`, `orderBy`; filtros combinados.
+
+**Features (MediatR):** crear/listar/obtener expedientes; crear/listar/obtener atenciones;
+signos vitales; notas; diagnósticos; síntomas; prescripciones; tratamientos; indicaciones;
+referencias; procedimientos; archivos; catálogos; ingresos/egresos hospitalarios.
+
+**Endpoints principales:**
+`GET/POST /api/expedientes`, `GET /api/expedientes/paciente/{pacienteId}`,
+`GET/POST /api/expedientes/{id}/archivos`, `GET/POST /api/atenciones`,
+`GET/POST /api/atenciones/{id}/signos-vitales`, `.../notas`, `.../diagnosticos`,
+`.../sintomas`, `.../prescripciones`, `.../tratamientos`, `.../indicaciones`,
+`.../referencias`, `.../procedimientos`, `GET /api/catalogos/*`,
+`GET /api/hospitalizacion`, `POST /api/hospitalizacion/ingresar`,
+`POST /api/hospitalizacion/{id}/egresar`.
+
+**Errores:** `1001-1031` (dominio) y `1090-1092` (JWT: `401`/`403`), con respuesta
+`{ errorCode, errorMessage }`.
+
+**Dependencias:** `Scheduling.Api` para citas y `Identity.Api` para médicos; `BaseUrl` vacío
+activa stubs para poder ejecutar y probar sin otros servicios. `seed-clinical.sql` carga
+catálogos, habitación/cama y el expediente de prueba.
+
+**Verificación:** `dotnet build src/ClinicalRecords.Service/Clinical.Api/Clinical.Api.csproj`
+correcto; `dotnet test src/ClinicalRecords.Service/Clinical.Tests/Clinical.Tests.csproj`
+22/22 pruebas.
+
+### 10.2 Laboratory.Service — microservicio 4
+
+**Responsabilidad:** responder `¿QUÉ estudios se pidieron y QUÉ mostraron?`. Dueño de 4 tablas:
+`Catálogo_Estudios`, `Solicitudes_Estudio`, `Solicitud_Estudio_Detalle`,
+`Resultados_Estudio`.
+
+**Proyectos:** `Lab.Domain`, `Lab.Core`, `Lab.Persistence`, `Lab.Infrastructure`,
+`Lab.Api`, `Lab.Tests`. Puerto HTTP `52098`.
+
+**Reglas de negocio implementadas y probadas:**
+- Alta de estudio con `codigo` único; el catálogo puede darse de baja (`activo = 0`).
+- Solicitud con al menos un detalle, atención y médico válidos, y estudios existentes/activos.
+- Número de solicitud generado como `SE-{año}-{id}`.
+- No se permiten detalles duplicados ni cancelar una solicitud ya cancelada; el motivo es
+  obligatorio y no se pueden cancelar solicitudes con resultados.
+- Un solo resultado por detalle; al registrar el último resultado la solicitud pasa a
+  `COMPLETADA`.
+- Validación de propiedad: la atención debe ser del paciente indicado; el detalle debe
+  pertenecer a la solicitud.
+
+**Features (MediatR):** crear/listar/obtener estudios; crear/listar/obtener/cancelar
+solicitudes; consultar resultados por solicitud o globalmente; registrar resultados.
+Listados paginados con `atencionID`, `pacienteID`, `medicoID`, `estado`, `desde`, `hasta`.
+
+**Endpoints principales:**
+`GET/POST /api/estudios`, `GET /api/estudios/{id}`,
+`GET/POST /api/solicitudes`, `GET /api/solicitudes/{id}`,
+`POST /api/solicitudes/{id}/cancelar`, `GET /api/resultados`,
+`GET /api/resultados/solicitud/{solicitudEstudioId}`, `POST /api/resultados`.
+
+**Errores:** `1101-1118`, con respuesta `{ errorCode, errorMessage }`.
+
+**Dependencias:** `ClinicalRecords.Api` para validar la atención y `Identity.Api` para el
+médico; `BaseUrl` vacío activa stubs. `seed-laboratory.sql` carga 6 estudios, uno inactivo
+para probar el error `1109`.
+
+**Verificación:** `dotnet build src/Laboratory.Service/Lab.Api/Lab.Api.csproj` correcto;
+`dotnet test src/Laboratory.Service/Lab.Tests/Lab.Tests.csproj` 26/26 pruebas.
+
+### 10.3 Notification.Service — microservicio 6
+
+**Responsabilidad:** responder `¿QUÉ notificaciones se generan?`. Dueño de la tabla
+`Notificaciones`: centro de avisos/campana para pacientes y médicos. Los otros microservicios
+registran aquí lo que deben comunicar; Notification no envía correo, SMS ni push por sí mismo.
+
+**Proyectos:** `Notification.Domain`, `Notification.Core`, `Notification.Persistence`,
+`Notification.Api`, `Notification.Tests`. No hay `Infrastructure` porque no tiene clientes
+salientes. Puertos HTTP `52099` y HTTPS `52100`.
+
+**Reglas de negocio implementadas y probadas:**
+- `EventoID` obligatorio y normalizado a mayúsculas; es clave de idempotencia entre productores.
+- Validación de `UsuarioID`, `Titulo`, `Mensaje`, `Tipo`, `Canal`, `Prioridad` y `OrigenServicio`.
+- El destinatario es obligatorio salvo en `INTERNO`; en `EMAIL` debe contener `@`.
+- `FechaProgramada`, si se informa, no puede ser anterior al momento actual.
+- Alta idempotente: si el `EventoID` ya existe se devuelve la notificación existente, sin insertar.
+- La nueva notificación nace `PENDIENTE`, `Activo = true`, `Intentos = 0`.
+- Enviar desde `PENDIENTE`/`FALLIDA`: éxito → `ENVIADA` con `FechaEnvio`; fallo → `FALLIDA`
+  con `UltimoError` obligatorio. En ambos casos incrementa `Intentos`.
+- Marcar como leída desde cualquier estado salvo `CANCELADA`; si ya está `LEIDA` no cambia nada.
+- Cancelar desde cualquier estado salvo `LEIDA`/`CANCELADA`, con motivo obligatorio;
+  desactiva la fila y registra `FechaCancelacion`.
+- Listados paginados con `usuarioID`, `tipo`, `canal`, `estado`, `origenServicio`,
+  `soloActivas`, `desde`, `hasta`, `filter`, `orderBy` y `buscar`.
+
+**Features (MediatR):** crear, enviar, marcar leída y cancelar notificaciones; consultar
+listado paginado y detalle por ID.
+
+**Endpoints principales:**
+`GET /api/notificaciones`, `GET /api/notificaciones/usuario/{usuarioId}`,
+`GET /api/notificaciones/{id}`, `POST /api/notificaciones`,
+`POST /api/notificaciones/{id}/enviar`, `POST /api/notificaciones/{id}/leer`,
+`POST /api/notificaciones/{id}/cancelar`.
+
+**Errores:** `1201-1215` (dominio) y `1290-1292` (JWT: `401`/`403`), con respuesta
+`{ errorCode, errorMessage }`.
+
+**Dependencias:** entrantes desde Identity, Scheduling, ClinicalRecords, Laboratory y
+Billing mediante `POST /api/notificaciones`. No hay dependencias salientes ni stubs.
+`seed-notifications.sql` carga ejemplos en `PENDIENTE`, `ENVIADA` y `LEIDA`.
+
+**Verificación:** `dotnet build src/Notification.Service/Notification.Api/Notification.Api.csproj`
+correcto; `dotnet test src/Notification.Service/Notification.Tests/Notification.Tests.csproj`
+18/18 pruebas.
+
+### 10.4 Verificación conjunta
+
+Los 17 proyectos nuevos están registrados en `citasMedicas.slnx`. La solución completa
+compila con `dotnet build citasMedicas.slnx --nologo` y las pruebas se ejecutan con
+`dotnet test citasMedicas.slnx --nologo` (163 pruebas). No se agregaron migraciones EF:
+ClinicalRecords, Laboratory y Notification reutilizan `ClinicaDB` como Scheduling.
+
+Los 6 microservicios de la propuesta quedan implementados; la arquitectura, la lógica de
+negocio, los códigos de error y las pruebas de cada uno quedan descritos en esta sección.
 
 
 
